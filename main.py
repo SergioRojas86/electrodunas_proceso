@@ -1,7 +1,8 @@
 import sys
 import json
 from src.utils.logger_config import configure_logger, upload_to_s3
-import boto3import datetime
+import boto3 
+import datetime
 
 # Configura el logger
 current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
