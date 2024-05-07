@@ -16,21 +16,21 @@ def merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_c
 
     # Leer el archivo CSV existente desde S3
     existing_csv_data = read_csv_from_s3(bucket_name_log, log_file)
+    
+    # Escribir los datos fusionados en un archivo temporal
+    temp_csv_file = StringIO()
+    csv_writer = csv.writer(temp_csv_file)
 
     # Fusionar los datos existentes con los nuevos datos
     merged_data = []
     if existing_csv_data:
         merged_data = list(csv.reader(StringIO(existing_csv_data)))
-
-    merged_data.extend(files_to_execute)
-
-    # Escribir los datos fusionados en un archivo temporal
-    temp_csv_file = StringIO()
-    csv_writer = csv.writer(temp_csv_file)
-    
-    # Escribir los nombres de las columnas
-    csv_writer.writerow(column_names)
-    
+        merged_data.extend(files_to_execute)
+    else:
+        # Escribir los nombres de las columnas
+        csv_writer.writerow(column_names)
+        merged_data = files_to_execute
+        
     # Escribir los datos fusionados
     csv_writer.writerows(merged_data)
 
