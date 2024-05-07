@@ -12,9 +12,11 @@ def configure_logger(log_file_name):
 
     return logger
 
-def upload_to_s3(log_file_name, bucket_name_log, s3_client):
+def upload_log_to_s3(log_file_name, bucket_name_log, s3_client, logger_com):
     folder_name = 'execution-log'
     object_name = os.path.join(folder_name, os.path.basename(log_file_name))
     
-    s3_client.upload_file(log_file_name, bucket_name_log, log_file_name)
+    s3_client.upload_file(log_file_name, bucket_name_log, object_name)
+    
+    logger_com.info(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")    
     print(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")
