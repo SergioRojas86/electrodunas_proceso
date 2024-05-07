@@ -28,5 +28,5 @@ if __name__ == "__main__":
     logger.info(f'Se realizara el procesamiento de las fechas: {files_to_execute}')
     
     main(log_file, bucket_name_log, files_to_execute, s3_client)
-    upload_to_s3(log_file_name, bucket_name_log, s3_client, logger)
+    upload_log_to_s3(log_file_name, bucket_name_log, s3_client, logger)
     
