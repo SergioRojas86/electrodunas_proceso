@@ -40,9 +40,9 @@ if __name__ == "__main__":
 			'files_to_execute': files
 			}
     
-    data = json.dumps(data_to_send)
+    json_arg = json.dumps(data_to_send)
     
-    #data = json.loads(json_arg)
+    data = json.loads(json_arg)
     log_bucket = data['log_bucket']
     log_file = data['log_file']
     cleaning_bucket = data['cleaning_bucket']
