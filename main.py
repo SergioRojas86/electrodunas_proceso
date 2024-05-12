@@ -2,6 +2,7 @@ import sys
 import json
 from src.utils.logger_config import configure_logger, upload_log_to_s3
 from src.utils.write_csv import merge_and_upload_csv_to_s3
+from src.quality import columns_to_use 
 import boto3 
 import datetime
 
@@ -10,10 +11,15 @@ current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
 log_file_name = f'ejecución_{current_date}.log'
 logger = configure_logger(log_file_name)
 
-def main(log_file, bucket_name_log, files_to_execute, s3_client):
+def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket,clean_folder):
     
-    # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas  
-    merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
+    # proceso para revisar calidad de datos
+    columns_to_use(s3_client,cleaning_bucket,clean_folder)
+    
+    # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
+    # #merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
+    
+    
     
     
     
@@ -22,8 +28,21 @@ if __name__ == "__main__":
     #bucket_name_log = 'electrodunas-log-files'
     #log_file = "log_executed_files.csv"
     
-    json_arg = sys.argv[1]
-    data = json.loads(json_arg)
+    #json_arg = sys.argv[1]
+    
+    files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
+    
+    data_to_send = {'log_bucket':"electrodunas-log-files", 
+            'log_file':"log_executed_files.csv", 
+            'cleaning_bucket':"electrodunas-clean-data", 
+            'clean_folder':"clean", 
+            'stage_folder':"stage",
+			'files_to_execute': files
+			}
+    
+    data = json.dumps(data_to_send)
+    
+    #data = json.loads(json_arg)
     log_bucket = data['log_bucket']
     log_file = data['log_file']
     cleaning_bucket = data['cleaning_bucket']
@@ -35,9 +54,9 @@ if __name__ == "__main__":
     
     if files_to_execute:
         logger.info(f'Se realizara el procesamiento de las fechas: {files_to_execute}')
-        main(log_file, log_bucket, files_to_execute, s3_client)
-        upload_log_to_s3(log_file_name, log_bucket, s3_client, logger)
+        main(log_file,log_bucket,files_to_execute,s3_client,cleaning_bucket,clean_folder)
+        #upload_log_to_s3(log_file_name, log_bucket, s3_client, logger)
     else:
         logger.info(f'No hay fechas para procesar')
-        upload_log_to_s3(log_file_name, log_bucket, s3_client, logger)
+        #upload_log_to_s3(log_file_name, log_bucket, s3_client, logger)
     
