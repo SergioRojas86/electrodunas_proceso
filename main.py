@@ -14,7 +14,7 @@ logger = configure_logger(log_file_name)
 def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket,clean_folder):
     
     # proceso para revisar calidad de datos
-    columns_to_use(s3_client,cleaning_bucket,clean_folder)
+    columns_to_use(s3_client,files_to_execute,cleaning_bucket,clean_folder)
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     # #merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
