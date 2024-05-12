@@ -62,7 +62,7 @@ def columns_to_use(s3_client, logger, files_to_execute, cleaning_bucket, clean_f
     if 'Contents' in response:
         for obj in response['Contents']:
             key = obj['Key']
-            print(key)
+            print(response['Contents'])
             # verificar completitud
             completeness_csv(s3_client, logger, cleaning_bucket, key)
             # verificar estructura de los archivos, que contengan las columnas requeridas
