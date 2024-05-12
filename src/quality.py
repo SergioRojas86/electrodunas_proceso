@@ -2,10 +2,18 @@ import boto3
 import pandas as pd
 from io import BytesIO
 
+# Función para verificar columnas en CSV
 def check_csv_columns(s3_client, bucket, key, required_columns):
     response = s3_client.get_object(Bucket=bucket, Key=key)
     data = response['Body'].read()
     df = pd.read_csv(BytesIO(data))
+    return all(column in df.columns for column in required_columns)
+
+# Función para verificar columnas en XLSX
+def check_xlsx_columns(s3_client, bucket, key, required_columns):
+    response = s3_client.get_object(Bucket=bucket, Key=key)
+    data = response['Body'].read()
+    df = pd.read_excel(BytesIO(data), engine='openpyxl')
     return all(column in df.columns for column in required_columns)
 
 def columns_to_use(s3_client, files_to_execute, cleaning_bucket, clean_folder):
@@ -19,6 +27,7 @@ def columns_to_use(s3_client, files_to_execute, cleaning_bucket, clean_folder):
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=clean_folder)
     
     files_with_missing_columns=[]
+    wrong_xlsx = 0
     
     if 'Contents' in response:
         for obj in response['Contents']:
@@ -28,5 +37,11 @@ def columns_to_use(s3_client, files_to_execute, cleaning_bucket, clean_folder):
                 if key.endswith('.csv'):
                     if not check_csv_columns(s3_client, cleaning_bucket, key, csv_columns):
                         files_with_missing_columns.append(key)
-                    else:
-                        print(f'{key} todo good')
+                elif key.endswith('.xlsx'):
+                    if not check_xlsx_columns(s3_client, cleaning_bucket, key, xlsx_columns):
+                        wrong_xlsx = 1
+                        
+    if files_with_missing_columns:
+        print('en la mala')
+    if wrong_xlsx == 1:
+        print('en la mala el catalogo')
