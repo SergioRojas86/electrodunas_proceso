@@ -18,13 +18,15 @@ def columns_to_use(s3_client, files_to_execute, cleaning_bucket, clean_folder):
     
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=clean_folder)
     
+    files_with_missing_columns=[]
+    
     if 'Contents' in response:
         for obj in response['Contents']:
             key = obj['Key']
             # Verificar si el archivo está en uno de los directorios especificados
             if any(key.startswith(directory) for directory in files_to_check):
                 if key.endswith('.csv'):
-                    if check_csv_columns(s3_client, cleaning_bucket, key, csv_columns):
-                        print(f"{key}: Contiene todas las columnas requeridas.")  
+                    if not check_csv_columns(s3_client, cleaning_bucket, key, csv_columns):
+                        files_with_missing_columns.append(key)
                     else:
-                        print(f"{key}: NO contiene todas las columnas requeridas.")
+                        print(f'{key} todo good')
