@@ -29,8 +29,8 @@ def check_csv_columns(s3_client, bucket, key, required_columns):
     data = response['Body'].read()
     df = pd.read_csv(BytesIO(data))
     
-    #if key == 'clean(/2021_Cliente_1.csv':
-    print(key)
+    if key == 'clean/2021/2021_Cliente_1.csv':
+        print(df)
     return all(column in df.columns for column in required_columns)
 
 # Función para verificar columnas en XLSX
