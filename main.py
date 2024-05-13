@@ -20,10 +20,15 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
         logger.info('Archivos con la estructura incompleta {files_with_missing_columns}')
         logger.info('Deben contener las columnas: Active_energy, Reactive_energy, Voltaje_FA, Voltaje_FC')
         sys.exit()
+    else:
+        print('Todos los archivos contienen su estructura correcta')
     
     if wrong_xlsx == 1:
         logger.info('El catalogo de sector economico esta incompleto, debe contener las columnas: Cliente:, Sector Económico:')
         sys.exit()
+    else:
+        print('El catalogo es correcto')
+        
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     # #merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
