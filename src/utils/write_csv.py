@@ -10,7 +10,7 @@ def read_csv_from_s3(bucket_name, file_name):
     except s3.exceptions.NoSuchKey:
         return None
 
-def merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger_com):
+def merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger_com):
     # Nombres de las columnas
     column_names = ["fecha_datos", "fecha_actualizacion", "fecha_ejecucion"]
 

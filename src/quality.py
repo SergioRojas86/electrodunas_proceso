@@ -3,11 +3,11 @@ import pandas as pd
 from io import BytesIO
 
 # verificar completitud
-def completeness_csv(s3_client, logger, bucket, key):
+def completeness_csv(s3_client, logger, cleaning_bucket, key):
     # completitud
     result = {}
     columns_with_low_completeness = {}
-    response = s3_client.get_object(Bucket=bucket, Key=key)
+    response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
     df = pd.read_csv(BytesIO(data))
     
@@ -24,18 +24,15 @@ def completeness_csv(s3_client, logger, bucket, key):
         logger.info('WARNING: Archivos con una importante cantidad de data incompleta {result}')
 
 # Función para verificar columnas en CSV
-def check_csv_columns(s3_client, bucket, key, required_columns):
-    response = s3_client.get_object(Bucket=bucket, Key=key)
+def check_csv_columns(s3_client, cleaning_bucket, key, required_columns):
+    response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
     df = pd.read_csv(BytesIO(data))
-    
-    if key == 'clean/2021/2021_Cliente_1.csv':
-        print(df)
     return all(column in df.columns for column in required_columns)
 
 # Función para verificar columnas en XLSX
-def check_xlsx_columns(s3_client, logger, bucket, key, required_columns):
-    response = s3_client.get_object(Bucket=bucket, Key=key)
+def check_xlsx_columns(s3_client, logger, cleaning_bucket, key, required_columns):
+    response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
     df = pd.read_excel(BytesIO(data), engine='openpyxl')
     
