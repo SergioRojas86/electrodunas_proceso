@@ -13,7 +13,7 @@ logger = configure_logger(log_file_name)
 
 def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket,clean_folder):
     
-    # proceso para revisar calidad de datos
+    logger.info('Inicia el proceso de verificación de calidad de datos')
     files_with_missing_columns, wrong_xlsx = columns_to_use(s3_client,logger,files_to_execute,cleaning_bucket,clean_folder)
     
     if files_with_missing_columns:
@@ -21,14 +21,15 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
         logger.info('Deben contener las columnas: Active_energy, Reactive_energy, Voltaje_FA, Voltaje_FC')
         sys.exit()
     else:
-        print('Todos los archivos contienen su estructura correcta')
+        logger.info('Todos los archivos de los clientes contienen las columnas requeridas')
     
     if wrong_xlsx == 1:
-        logger.info('El catalogo de sector economico esta incompleto, debe contener las columnas: Cliente:, Sector Económico:')
+        logger.info('El catalogo de sector economico esta incompleto, debe contener las columnas: Cliente:, Sector Economico:')
         sys.exit()
     else:
-        print('El catalogo es correcto')
+        logger.info('El catalogo contiene las columnas requeridas')
         
+    logger.info('Inicia el merge de la data de los clientes con el catalogo de sector economico')
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     # #merge_and_upload_csv_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
