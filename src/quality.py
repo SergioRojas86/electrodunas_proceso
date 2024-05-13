@@ -61,16 +61,17 @@ def columns_to_use(s3_client, logger, files_to_execute, cleaning_bucket, clean_f
     
     if 'Contents' in response:
         for obj in response['Contents']:
-            key = obj['Key']
-            print(response['Contents'])
-            # verificar completitud
-            completeness_csv(s3_client, logger, cleaning_bucket, key)
+            key = obj['Key']            
             # verificar estructura de los archivos, que contengan las columnas requeridas
             if any(key.startswith(directory) for directory in files_to_check):
                 if key.endswith('.csv'):
+                    # verificar completitud
+                    completeness_csv(s3_client, logger, cleaning_bucket, key)
+                    # verificar estructura columnas
                     if not check_csv_columns(s3_client, cleaning_bucket, key, csv_columns):
                         files_with_missing_columns.append(key)
                 elif key.endswith('.xlsx'):
+                    # verificar estructura columnas
                     if not check_xlsx_columns(s3_client, logger, cleaning_bucket, key, xlsx_columns):
                         wrong_xlsx = 1
                         
