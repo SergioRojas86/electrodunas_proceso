@@ -14,7 +14,8 @@ logger = configure_logger(log_file_name)
 def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket,clean_folder):
     
     logger.info('Inicia el proceso de verificación de calidad de datos')
-    files_with_missing_columns, wrong_xlsx = columns_to_use(s3_client,logger,files_to_execute,cleaning_bucket,clean_folder)
+    columns_to_use()
+    #files_with_missing_columns, wrong_xlsx = columns_to_use(s3_client,logger,files_to_execute,cleaning_bucket,clean_folder)
     
     if files_with_missing_columns:
         logger.info('Archivos con la estructura incompleta {files_with_missing_columns}')
