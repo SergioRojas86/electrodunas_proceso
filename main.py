@@ -43,19 +43,19 @@ if __name__ == "__main__":
     #bucket_name_log = 'electrodunas-log-files'
     #log_file = "log_executed_files.csv"
     
-    #files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
+    files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
     
-    #data_to_send = {'log_bucket':"electrodunas-log-files", 
-    #        'log_file':"log_executed_files.csv", 
-    #        'cleaning_bucket':"electrodunas-clean-data", 
-    #        'clean_folder':"clean", 
-    #        'stage_folder':"stage",
-	#		'files_to_execute': files
-	#		}
+    data_to_send = {'log_bucket':"electrodunas-log-files", 
+            'log_file':"log_executed_files.csv", 
+            'cleaning_bucket':"electrodunas-clean-data", 
+            'clean_folder':"clean", 
+            'stage_folder':"stage",
+			'files_to_execute': files
+			}
     
-    #json_arg = json.dumps(data_to_send)
+    json_arg = json.dumps(data_to_send)
     
-    json_arg = sys.argv[1]
+    #json_arg = sys.argv[1]
     
     data = json.loads(json_arg)
     log_bucket = data['log_bucket']
