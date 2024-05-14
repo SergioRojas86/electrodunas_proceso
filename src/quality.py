@@ -2,6 +2,9 @@ import boto3
 import pandas as pd
 from io import BytesIO
 
+print(f'pandas: {pd.__version__}')
+
+'''
 # verificar completitud
 def completeness_csv(s3_client, logger, cleaning_bucket, key):
     # completitud
@@ -76,4 +79,4 @@ def columns_to_use(s3_client, logger, files_to_execute, cleaning_bucket, clean_f
     return files_with_missing_columns, wrong_xlsx
         
         
-    
+'''
