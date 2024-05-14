@@ -46,8 +46,6 @@ def check_xlsx_columns(s3_client, logger, cleaning_bucket, key, required_columns
 # revisra estructura y completitud de los archivos
 def columns_to_use(s3_client, logger, files_to_execute, cleaning_bucket, clean_folder):
     
-    print(f'pandas: {pd.__version__}')
-    
     # Columnas requeridas
     csv_columns = ['Active_energy', 'Reactive_energy', 'Voltaje_FA', 'Voltaje_FC']
     xlsx_columns = ['Cliente:', 'Sector Económico:']
