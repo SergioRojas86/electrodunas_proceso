@@ -10,6 +10,7 @@ import pickle
 import holidays
 
 import warnings
+from statsmodels.tools.sm_exceptions import ConvergenceWarning, ValueWarning
 
 # Ignorar advertencias específicas
 warnings.filterwarnings("ignore", category=UserWarning, module="statsmodels")
