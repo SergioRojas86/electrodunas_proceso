@@ -91,6 +91,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     logger.info('transformacion box cox')
     Data_ajustado_bc = box_cox(Data_ajustado)
     
+    anomaly_data['Fecha'] = pd.to_datetime(anomaly_data['Fecha'])
     Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
     
     logger.info('Entrenamiento de modelos')
