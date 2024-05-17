@@ -42,7 +42,6 @@ def merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, 
     s3.put_object(Body=temp_csv_file.getvalue(), Bucket=bucket_name_log, Key=log_file)
     
     logger_com.info("Se actualizo el log csv con los archivos ejecutados")
-    print("Se actualizo el log csv con los archivos ejecutados")
     
 def generar_descripcion(row):
     if row['is_outlier_if']:

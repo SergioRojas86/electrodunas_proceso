@@ -18,8 +18,7 @@ def upload_log_to_s3(log_file_name, bucket_name_log, s3_client, logger_com):
     
     s3_client.upload_file(log_file_name, bucket_name_log, object_name)
     
-    logger_com.info(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")    
-    print(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")
+    logger_com.info(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")
     
     
 def delete_log_files(folder_path='./'):
