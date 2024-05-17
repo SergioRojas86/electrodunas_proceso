@@ -1,5 +1,5 @@
 import pandas as pd
-import BytesIO
+from io import BytesIO
 
 def read_base(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     file = f'{stage_folder}/{base_csv_name}'
