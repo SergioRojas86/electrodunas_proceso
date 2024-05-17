@@ -35,7 +35,7 @@ def create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, l
     final_df['Fecha'] = pd.to_datetime(final_df['Fecha'])
     
     # Ordenar el DataFrame por las columnas 'fecha' y 'Cliente'
-    final_df = final_df.sort_values(by=['Fecha', 'Cliente'])
+    final_df = final_df.sort_values(by=['Cliente','Fecha'])
     
     # Guardar el resultado en un nuevo CSV en s3
     output_key = f'{stage_folder}/combined_output.csv'
