@@ -106,5 +106,37 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         print(f'model: modelo_arima_{cliente}')
         # Guardar el modelo ajustado en S3
         save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models')
-    
-    #    load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder)
+
+    lambda_universal = 0.5 
+
+    all_predictions = pd.DataFrame()
+
+    for cliente in Data_ajustado_bc['Cliente'].unique():
+        data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
+        
+        data_cliente.set_index('Fecha', inplace=True)
+        data_cliente.sort_index(inplace=True)
+
+        # Cargar el modelo ARIMA guardado desde S3 para cada cliente
+        modelo_cargado = load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder='models')
+
+        # La última fecha en el índice más un intervalo de tiempo
+        fecha_inicio_predicciones = data_cliente.index[-1] + pd.Timedelta(hours=1)
+        
+        # Realizar predicciones
+        pred = modelo_cargado.get_forecast(steps=168)
+        pred_mean_transformed = pred.predicted_mean
+
+        # Transformación inversa de las predicciones
+        pred_mean_original = inv_boxcox(pred_mean_transformed, lambda_universal)
+
+        # Crear un DataFrame para las predicciones del cliente actual
+        cliente_predictions = pd.DataFrame({
+            'Fecha': pd.date_range(start=fecha_inicio_predicciones, periods=168, freq='h'),
+            'Cliente': cliente,
+            'Prediccion_Active_Energy': pred_mean_original
+        })
+
+        all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
+
+    print(all_predictions)
