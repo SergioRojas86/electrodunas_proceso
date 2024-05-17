@@ -154,9 +154,6 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     logger.info('predicciones realizadas y archivo creado en {cleaning_bucket}/{prediction_file}')
 
     logger.info('Generando el archivo descriptivo batch para el endpoint')
-    merged_data = write_descriptive_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
+    write_descriptive_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
     
-    if merged_data:
-        logger.info(f'Archivo descriptivo creado en {cleaning_bucket}/result/datos_descriptivos.csv')
-    else:
-        logger.info('Archivo descriptivo no fue creado')
+    logger.info(f'Archivo descriptivo creado en {cleaning_bucket}/result/datos_descriptivos.csv')

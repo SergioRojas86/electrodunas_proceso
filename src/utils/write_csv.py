@@ -86,6 +86,4 @@ def write_descriptive_file(s3_client, cleaning_bucket, Data, Data_ajustado, resu
     merged_data.to_csv(csv_buffer, index=False)
     s3_client.put_object(Bucket=cleaning_bucket, Key=file_desc, Body=csv_buffer.getvalue())
     
-    return merged_data
-    
     
