@@ -119,7 +119,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         data_cliente.sort_index(inplace=True)
 
         # Cargar el modelo ARIMA guardado desde S3 para cada cliente
-        modelo_cargado = load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder='models')
+        #modelo_cargado = load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder='models')
         
         print(data_cliente.index[-1])
 
