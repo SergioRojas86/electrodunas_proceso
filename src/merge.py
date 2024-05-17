@@ -4,7 +4,7 @@ from io import BytesIO
 
 # Función para leer y concatenar CSVs
 def read_and_concatenate_csv(s3_client, cleaning_bucket, clean_folder, logger):
-    combined_df = None
+    combined_df = pd.DataFrame()
     directory = f'{clean_folder}/'
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
     if 'Contents' in response:
