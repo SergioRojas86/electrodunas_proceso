@@ -55,6 +55,14 @@ def box_cox(Data_ajustado):
     Data_ajustado['Transformed_Active_energy'], fitted_lambda = boxcox(Data_ajustado['Active_energy'])
     
     return Data_ajustado
+
+# Guardar el modelo ARIMA en S3
+def save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder):
+    buffer = BytesIO()
+    pickle.dump(resultado, buffer)
+    buffer.seek(0)
+    s3_client.put_object(Bucket=cleaning_bucket, Key=f'{models_folder}/modelo_arima_{cliente}.pkl', Body=buffer.getvalue())
+
     
 
 def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
@@ -67,4 +75,17 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     Data_ajustado_bc = box_cox(Data_ajustado)
     
-    print(Data_ajustado_bc)
+    for cliente in Data_ajustado_bc['Cliente'].unique():
+        data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
+        data_cliente.set_index('Fecha', inplace=True, drop=False)
+        data_cliente.sort_index(inplace=True)
+
+        train = data_cliente.iloc[:-500]  
+        test = data_cliente.iloc[-500:]  
+
+        # Ajustar el modelo ARIMA
+        modelo = ARIMA(train['Transformed_Active_energy'], order=(2,2,2))
+        resultado = modelo.fit()
+
+        # Guardar el modelo ajustado en S3
+        save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models/')
