@@ -61,7 +61,7 @@ def generar_descripcion(row):
     else:
         return np.nan  # Retorna NaN si is_outlier_if no es True
 
-def write_descriptive_file(s3_client, cleaning_bucket, Data, Data_ajustado, result='result'):
+def write_descriptive_file(s3_client, cleaning_bucket, Data, Data_ajustado, all_predictions, result='result'):
     
     file_desc = f'{result}/datos_descriptivos.csv'
     
@@ -82,8 +82,21 @@ def write_descriptive_file(s3_client, cleaning_bucket, Data, Data_ajustado, resu
     # Función que genera la descripción basada en las condiciones dadas
     merged_data['Descripcion'] = merged_data.apply(generar_descripcion, axis=1)
     
+    merged_data = merged_data.drop(['Festivo', 'Es_Domingo'], axis=1)
+
+    merged_data['Fecha'] = pd.to_datetime(merged_data['Fecha'])
+    all_predictions['Fecha'] = pd.to_datetime(all_predictions['Fecha'])
+
+    all_predictions.rename(columns={'Prediccion_Active_Energy': 'Active_energy'}, inplace=True)
+
+    predicciones_df = all_predictions[['Cliente', 'Fecha', 'Active_energy']]
+    combined_data = pd.concat([merged_data, predicciones_df], ignore_index=True)
+    combined_data['Anio'] = combined_data['Fecha'].dt.year #agregamos año
+    combined_data['is_outlier_if'] = combined_data['is_outlier_if'].fillna('predict') ## reemplazamos por predict
+    combined_data['Reactive_energy'].fillna(0, inplace=True)
+    
     csv_buffer = BytesIO()
-    merged_data.to_csv(csv_buffer, index=False)
+    combined_data.to_csv(csv_buffer, index=False)
     s3_client.put_object(Bucket=cleaning_bucket, Key=file_desc, Body=csv_buffer.getvalue())
     
     

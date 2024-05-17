@@ -147,13 +147,10 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
 
         all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
         
-    prediction_file = 'result/predicciones.csv'
-    csv_buffer = BytesIO()
-    all_predictions.to_csv(csv_buffer, index=False)
-    s3_client.put_object(Bucket=cleaning_bucket, Key=prediction_file, Body=csv_buffer.getvalue())
-    logger.info(f'predicciones realizadas y archivo creado en {cleaning_bucket}/{prediction_file}')
+    
+    logger.info(f'predicciones realizadas')
 
     logger.info('Generando el archivo descriptivo batch para el endpoint')
-    write_descriptive_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
+    write_descriptive_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, all_predictions, result='result')
     
     logger.info(f'Archivo descriptivo creado en {cleaning_bucket}/result/datos_descriptivos.csv')
