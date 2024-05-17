@@ -91,7 +91,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
     
-    '''for cliente in Data_ajustado_bc['Cliente'].unique():
+    for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
         data_cliente.set_index('Fecha', inplace=True, drop=False)
         data_cliente.sort_index(inplace=True)
@@ -112,7 +112,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
 
     lambda_universal = 0.5 
 
-    all_predictions = pd.DataFrame()'''
+    all_predictions = pd.DataFrame()
 
     for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
