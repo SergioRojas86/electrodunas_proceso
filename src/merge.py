@@ -13,12 +13,8 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, clean_folder, logger):
             if key.endswith('.csv'):
                 response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
                 data = response['Body'].read()
-                if combined_df is None:
-                    combined_df = pd.read_csv(BytesIO(data))  # Leer el primer CSV con encabezado
-                else:
-                    df = pd.read_csv(BytesIO(data), header=None)  # Leer los siguientes CSV sin encabezado
-                    df.columns = combined_df.columns  # Asignar las columnas para mantener la consistencia
-                    combined_df = pd.concat([combined_df, df], ignore_index=True)
+                df = pd.read_csv(BytesIO(data))  # Leer el primer CSV con encabezado
+                combined_df = combined_df.append(df, ignore_index=True)
     combined_df = combined_df.drop(columns=['Año'])
     return combined_df
 
