@@ -11,8 +11,10 @@ import holidays
 
 import warnings
 
-# Ignorar específicamente FutureWarning
-warnings.filterwarnings('ignore', category=FutureWarning)
+# Ignorar advertencias específicas
+warnings.filterwarnings("ignore", category=UserWarning, module="statsmodels")
+warnings.filterwarnings("ignore", category=ConvergenceWarning, module="statsmodels")
+warnings.filterwarnings("ignore", category=ValueWarning, module="statsmodels")
 
 def read_base(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     file = f'{stage_folder}/{base_csv_name}'
