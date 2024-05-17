@@ -70,7 +70,12 @@ def save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_fold
     buffer.seek(0)
     s3_client.put_object(Bucket=cleaning_bucket, Key=f'{models_folder}/modelo_arima_{cliente}.pkl', Body=buffer.getvalue())
 
-    
+# Cargar el modelo ARIMA desde S3
+def load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder):
+    response = s3_client.get_object(Bucket=cleaning_bucket, Key=f'{models_folder}/modelo_arima_{cliente}.pkl')
+    buffer = BytesIO(response['Body'].read())
+    model = pickle.load(buffer)
+    return model
 
 def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
@@ -88,12 +93,17 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         data_cliente.sort_index(inplace=True)
 
         train = data_cliente.iloc[:-500]  
-        test = data_cliente.iloc[-500:]  
+        test = data_cliente.iloc[-500:]   
 
-        # Ajustar el modelo ARIMA
-        modelo = ARIMA(train['Transformed_Active_energy'], order=(2,2,2))
+        if cliente == 'Cliente 13':
+            modelo = ARIMA(train['Active_energy'], order=(2,3,2))
+        else:
+            modelo = ARIMA(train['Transformed_Active_energy'], order=(2,2,2))
+
         resultado = modelo.fit()
         
         print(f'model: modelo_arima_{cliente}')
         # Guardar el modelo ajustado en S3
         save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models')
+    
+    #    load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder)
