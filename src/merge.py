@@ -13,7 +13,7 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
             if key.endswith('.csv'):
                 response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
                 data = response['Body'].read()
-                df = pd.read_csv(BytesIO(data))
+                df = pd.read_csv(BytesIO(data), header=0 if combined_df.empty else None)
                 combined_df = pd.concat([combined_df, df], ignore_index=True)
     print(combined_df)
     #return combined_df
