@@ -40,6 +40,9 @@ def modified_data(anomaly_data):
     Data_ajustado.loc[Data_ajustado['is_outlier_if'], 'Active_energy'] = Data_ajustado.loc[Data_ajustado['is_outlier_if'], 'Media_Diaria']
     Data_ajustado['Active_energy'].fillna(Data_ajustado['Active_energy'].mean(), inplace=True)
     
+    Data_ajustado['Fecha'] = anomaly_data['Fecha']
+    Data_ajustado = Data_ajustado.drop(['index'], axis=1)
+    
     print(Data_ajustado)
     
 
