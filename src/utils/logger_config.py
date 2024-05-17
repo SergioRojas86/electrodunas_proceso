@@ -20,3 +20,14 @@ def upload_log_to_s3(log_file_name, bucket_name_log, s3_client, logger_com):
     
     logger_com.info(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")    
     print(f"El archivo {log_file_name} ha sido subido exitosamente al bucket {bucket_name_log}.")
+    
+    
+def delete_log_files(folder_path='./'):
+    try:
+        for filename in os.listdir(folder_path):
+            if filename.endswith(".log"):
+                file_path = os.path.join(folder_path, filename)
+                os.remove(file_path)
+                print(f"Archivo eliminado: {file_path}")
+    except Exception as e:
+        print(f"Error al eliminar archivos: {e}")

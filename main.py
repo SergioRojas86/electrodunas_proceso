@@ -2,7 +2,7 @@ import sys
 import json
 import boto3 
 import datetime
-from src.utils.logger_config import configure_logger, upload_log_to_s3
+from src.utils.logger_config import configure_logger, upload_log_to_s3, delete_log_files
 from src.utils.write_csv import merge_and_upload_csv_log_to_s3
 from src.quality import columns_to_use
 from src.merge import read_and_concatenate_csv, read_xlsx, create_base
@@ -46,7 +46,7 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
     
     
     '''model'''
-    main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger)
+    #main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger)
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
@@ -92,4 +92,6 @@ if __name__ == "__main__":
     else:
         logger.info(f'No hay fechas para procesar')
         upload_log_to_s3(log_file_name, log_bucket, s3_client, logger)
+        
+    delete_log_files()
     
