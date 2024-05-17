@@ -52,14 +52,9 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
     merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
     
     
-    
-    
-    
 if __name__ == "__main__":
     s3_client = boto3.client('s3')
-    #bucket_name_log = 'electrodunas-log-files'
-    #log_file = "log_executed_files.csv"
-    
+        
     files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
     
     data_to_send = {'log_bucket':"electrodunas-log-files", 
@@ -95,3 +90,4 @@ if __name__ == "__main__":
         
     delete_log_files()
     
+    logger.info('Proceso finalizado')

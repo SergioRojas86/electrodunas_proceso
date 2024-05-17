@@ -5,7 +5,7 @@ from scipy.special import inv_boxcox
 from statsmodels.tsa.arima.model import ARIMA
 from sklearn.ensemble import IsolationForest
 import pickle
-from src.utils.write_csv import write_predict_file
+from src.utils.write_csv import write_descriptive_file
 
 import warnings
 from statsmodels.tools.sm_exceptions import ConvergenceWarning, ValueWarning
@@ -93,7 +93,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     anomaly_data['Fecha'] = pd.to_datetime(anomaly_data['Fecha'])
     Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
-    '''
+    
     logger.info('Entrenamiento de modelos')
     for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
@@ -146,7 +146,17 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         })
 
         all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
-        logger.info('predicciones realizadas')'''
+        
+    prediction_file = 'result/predicciones.csv'
+    csv_buffer = BytesIO()
+    all_predictions.to_csv(csv_buffer, index=False)
+    s3_client.put_object(Bucket=cleaning_bucket, Key=prediction_file, Body=csv_buffer.getvalue())
+    logger.info('predicciones realizadas y archivo creado en {cleaning_bucket}/{prediction_file}')
 
-    logger.info('Generando el archivo batch para el endpoint')
-    write_predict_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
+    logger.info('Generando el archivo descriptivo batch para el endpoint')
+    merged_data = write_descriptive_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
+    
+    if merged_data:
+        logger.info(f'Archivo descriptivo creado en {cleaning_bucket}/result/datos_descriptivos.csv')
+    else:
+        logger.info('Archivo descriptivo no fue creado')

@@ -1,6 +1,6 @@
 import csv
 import boto3
-from io import StringIO
+from io import StringIO, BytesIO
 import pandas as pd
 import holidays
 import numpy as np
@@ -62,7 +62,9 @@ def generar_descripcion(row):
     else:
         return np.nan  # Retorna NaN si is_outlier_if no es True
 
-def write_predict_file(s3_client, cleaning_bucket, Data, Data_ajustado, result='result'):
+def write_descriptive_file(s3_client, cleaning_bucket, Data, Data_ajustado, result='result'):
+    
+    file_desc = f'{result}/datos_descriptivos.csv'
     
     merged_data = pd.merge(Data[['Fecha', 'Active_energy', 'Reactive_energy', 'Cliente', 'Sector_Economico', 'is_outlier_if']],
                        Data_ajustado[['Fecha', 'Cliente', 'Media_Diaria']],
@@ -80,6 +82,11 @@ def write_predict_file(s3_client, cleaning_bucket, Data, Data_ajustado, result='
     
     # Función que genera la descripción basada en las condiciones dadas
     merged_data['Descripcion'] = merged_data.apply(generar_descripcion, axis=1)
-    print(merged_data)
+    
+    csv_buffer = BytesIO()
+    merged_data.to_csv(csv_buffer, index=False)
+    s3_client.put_object(Bucket=cleaning_bucket, Key=file_desc, Body=csv_buffer.getvalue())
+    
+    return merged_data
     
     
