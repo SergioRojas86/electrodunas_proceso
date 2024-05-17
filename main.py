@@ -2,7 +2,8 @@ import sys
 import json
 from src.utils.logger_config import configure_logger, upload_log_to_s3
 from src.utils.write_csv import merge_and_upload_csv_log_to_s3
-from src.quality import columns_to_use 
+from src.quality import columns_to_use
+from src.merge import read_and_concatenate_csv
 import boto3 
 import datetime
 
@@ -31,6 +32,9 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
         
     logger.info('Inicia el merge de la data de los clientes con el catalogo de sector economico')
     
+    # Leer todos los csv de clientes
+    read_and_concatenate_csv(s3_client, cleaning_bucket, logger)
+    
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
     
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     s3_client = boto3.client('s3')
     #bucket_name_log = 'electrodunas-log-files'
     #log_file = "log_executed_files.csv"
-    '''
+    
     files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
     
     data_to_send = {'log_bucket':"electrodunas-log-files", 
@@ -54,8 +58,8 @@ if __name__ == "__main__":
 			}
     
     json_arg = json.dumps(data_to_send)
-    '''
-    json_arg = sys.argv[1]
+    
+    # json_arg = sys.argv[1]
     
     data = json.loads(json_arg)
     log_bucket = data['log_bucket']

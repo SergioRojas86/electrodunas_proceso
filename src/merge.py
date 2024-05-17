@@ -1,31 +1,31 @@
-import boto3
 import pandas as pd
 from io import BytesIO
 
 
 # Función para leer y concatenar CSVs
-def read_and_concatenate_csvs(s3_client, cleaning_bucket, directories):
+def read_and_concatenate_csv(s3_client, cleaning_bucket):
     combined_df = pd.DataFrame()
-    for directory in directories:
-        response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
-        if 'Contents' in response:
-            for obj in response['Contents']:
-                key = obj['Key']
-                if key.endswith('.csv'):
-                    response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
-                    data = response['Body'].read()
-                    df = pd.read_csv(BytesIO(data))
-                    combined_df = pd.concat([combined_df, df], ignore_index=True)
-    return combined_df
+    directory = 'clean/'
+    response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
+    print(response['Contents'])
+    '''if 'Contents' in response:
+        for obj in response['Contents']:
+            key = obj['Key']
+            if key.endswith('.csv'):
+                response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
+                data = response['Body'].read()
+                df = pd.read_csv(BytesIO(data))
+                combined_df = pd.concat([combined_df, df], ignore_index=True)
+    return combined_df'''
 
 # Función para leer el archivo XLSX
 def read_xlsx(s3_client, cleaning_bucket, key):
     response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
-    df = pd.read_excel(BytesIO(data), engine='openpyxl')
-    df = df.rename(columns={'Cliente:': 'Cliente', 'Sector Económico:': 'Sector Economico'})
-    df['Cliente'] = df['Cliente'].str.strip()
-    return df
+    xlsx_df = pd.read_excel(BytesIO(data), engine='openpyxl')
+    xlsx_df = xlsx_df.rename(columns={'Cliente:': 'Cliente', 'Sector Económico:': 'Sector Economico'})
+    xlsx_df['Cliente'] = xlsx_df['Cliente'].str.strip()
+    return xlsx_df
 
 '''
 # Función principal
