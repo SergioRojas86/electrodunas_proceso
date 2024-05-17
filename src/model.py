@@ -93,7 +93,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     anomaly_data['Fecha'] = pd.to_datetime(anomaly_data['Fecha'])
     Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
-    
+    '''
     logger.info('Entrenamiento de modelos')
     for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
@@ -146,7 +146,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         })
 
         all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
-        logger.info('predicciones realizadas')
+        logger.info('predicciones realizadas')'''
 
     logger.info('Generando el archivo batch para el endpoint')
     write_predict_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')
