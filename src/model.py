@@ -45,7 +45,7 @@ def modified_data(anomaly_data):
     Data_ajustado['Fecha'] = anomaly_data['Fecha']
     Data_ajustado = Data_ajustado.drop(['index'], axis=1)
     
-    print(Data_ajustado)
+    return Data_ajustado
     
 def box_cox(Data_ajustado):
     #  todos los valores en 'Active_energy' sean positivos
