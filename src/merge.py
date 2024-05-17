@@ -32,8 +32,15 @@ def create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, l
     # Realizar el join
     final_df = pd.merge(client_csv, es_xlsx, on='Cliente', how='left')
     
+    final_df['Fecha'] = pd.to_datetime(final_df['Fecha'])
+    
+    # Ordenar el DataFrame por las columnas 'fecha' y 'Cliente'
+    final_df = final_df.sort_values(by=['fecha', 'Cliente'])
+    
     # Guardar el resultado en un nuevo CSV en s3
     output_key = f'{stage_folder}/combined_output.csv'
     csv_buffer = BytesIO()
     final_df.to_csv(csv_buffer, index=False)
     s3_client.put_object(Bucket=cleaning_bucket, Key=output_key, Body=csv_buffer.getvalue())
+    
+    print(final_df)
