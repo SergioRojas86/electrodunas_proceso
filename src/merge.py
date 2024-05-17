@@ -4,6 +4,7 @@ from io import BytesIO
 
 # Función para leer y concatenar CSVs
 def read_and_concatenate_csv(s3_client, cleaning_bucket, clean_folder, logger):
+    logger.info('Combinacion de todos los archivos csv de los clientes')
     combined_df = pd.DataFrame()
     directory = f'{clean_folder}/'
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
@@ -20,6 +21,7 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, clean_folder, logger):
 
 # Función para leer el archivo XLSX
 def read_xlsx(s3_client, cleaning_bucket, logger):
+    logger.info('Leyendo el archivo catalogo de sector economico')
     key = 'clean/sector_economico_clientes.xlsx'
     response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
@@ -28,7 +30,10 @@ def read_xlsx(s3_client, cleaning_bucket, logger):
     xlsx_df['Cliente'] = xlsx_df['Cliente'].str.strip()
     return xlsx_df
 
-def create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, logger):
+def create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, base_csv_name, logger):
+    
+    logger.info('Realizando la union de los clientes con su correspondiente sector economico')
+    
     # Realizar el join
     final_df = pd.merge(client_csv, es_xlsx, on='Cliente', how='left')
     
@@ -38,9 +43,9 @@ def create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, l
     final_df = final_df.sort_values(by=['Cliente','Fecha'])
     
     # Guardar el resultado en un nuevo CSV en s3
-    output_key = f'{stage_folder}/combined_output.csv'
+    output_key = f'{stage_folder}/{base_csv_name}'
     csv_buffer = BytesIO()
     final_df.to_csv(csv_buffer, index=False)
     s3_client.put_object(Bucket=cleaning_bucket, Key=output_key, Body=csv_buffer.getvalue())
     
-    print(final_df)
+    logger.info(f'El archivo base listo para el uso del modelo se creo en {cleaning_bucket}/{output_key}')
