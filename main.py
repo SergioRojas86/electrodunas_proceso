@@ -3,7 +3,7 @@ import json
 from src.utils.logger_config import configure_logger, upload_log_to_s3
 from src.utils.write_csv import merge_and_upload_csv_log_to_s3
 from src.quality import columns_to_use
-from src.merge import read_and_concatenate_csv, read_xlsx
+from src.merge import read_and_concatenate_csv, read_xlsx, create_base
 import boto3 
 import datetime
 
@@ -33,9 +33,11 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
     logger.info('Inicia el merge de la data de los clientes con el catalogo de sector economico')
     
     # Leer todos los csv de clientes
-    read_and_concatenate_csv(s3_client, cleaning_bucket, logger)
+    client_csv = read_and_concatenate_csv(s3_client, cleaning_bucket, clean_folder, logger)
     # leer xlsx de sector economico
-    read_xlsx(s3_client, cleaning_bucket, logger)
+    es_xlsx = read_xlsx(s3_client, cleaning_bucket, logger)
+    # crear la base para el modelo
+    create_base(s3_client, cleaning_bucket, stage_folder, client_csv, es_xlsx, logger)
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)
