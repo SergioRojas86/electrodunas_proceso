@@ -46,7 +46,7 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
     
     
     '''model'''
-    #main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger)
+    main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger)
     
     # Se ejecuta el proceso que actualiza o crea el archivo las fechas que han sido ejecutadas      
     merge_and_upload_csv_log_to_s3(log_file, bucket_name_log, files_to_execute, s3_client, logger)

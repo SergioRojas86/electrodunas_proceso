@@ -2,12 +2,10 @@ import pandas as pd
 from io import BytesIO
 from scipy.stats import boxcox
 from scipy.special import inv_boxcox
-import seaborn as sns
 from statsmodels.tsa.arima.model import ARIMA
 from sklearn.ensemble import IsolationForest
-import numpy as np
 import pickle
-import holidays
+from src.utils.write_csv import write_predict_file
 
 import warnings
 from statsmodels.tools.sm_exceptions import ConvergenceWarning, ValueWarning
@@ -81,16 +79,21 @@ def load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder):
 
 def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
+    logger.info('Leyendo archivo base')
     base_df = read_base(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger)
     
+    logger.info('Deteccion de anomalias')
     anomaly_data = anomalies(base_df)
     
+    logger.info('Ajustando datos')
     Data_ajustado = modified_data(anomaly_data)
     
+    logger.info('transformacion box cox')
     Data_ajustado_bc = box_cox(Data_ajustado)
     
     Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
     
+    logger.info('Entrenamiento de modelos')
     for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
         data_cliente.set_index('Fecha', inplace=True, drop=False)
@@ -106,7 +109,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
 
         resultado = modelo.fit()
         
-        print(f'model: modelo_arima_{cliente}')
+        logger.info(f'model: modelo_arima_{cliente}')
         # Guardar el modelo ajustado en S3
         save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models')
 
@@ -114,6 +117,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
 
     all_predictions = pd.DataFrame()
 
+    logger.info('Realizando predicciones')
     for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
         
@@ -141,5 +145,7 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         })
 
         all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
+        logger.info('predicciones realizadas')
 
-    print(all_predictions)
+    logger.info('Generando el archivo batch para el endpoint')
+    write_predict_file(s3_client, cleaning_bucket, anomaly_data, Data_ajustado_bc, result='result')

@@ -28,6 +28,5 @@ def delete_log_files(folder_path='./'):
             if filename.endswith(".log"):
                 file_path = os.path.join(folder_path, filename)
                 os.remove(file_path)
-                print(f"Archivo eliminado: {file_path}")
     except Exception as e:
-        print(f"Error al eliminar archivos: {e}")
+        print(f"No hay archivos log para borrar: {e}")
