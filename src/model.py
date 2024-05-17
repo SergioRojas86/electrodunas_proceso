@@ -13,6 +13,7 @@ import warnings
 from statsmodels.tools.sm_exceptions import ConvergenceWarning, ValueWarning
 
 # Ignorar advertencias específicas
+warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning, module="statsmodels")
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="statsmodels")
 warnings.filterwarnings("ignore", category=ValueWarning, module="statsmodels")
