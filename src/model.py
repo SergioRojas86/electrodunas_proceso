@@ -89,6 +89,8 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     Data_ajustado_bc = box_cox(Data_ajustado)
     
+    Data_ajustado_bc['Fecha'] = pd.to_datetime(Data_ajustado_bc['Fecha'])
+    
     '''for cliente in Data_ajustado_bc['Cliente'].unique():
         data_cliente = Data_ajustado_bc[Data_ajustado_bc['Cliente'] == cliente]
         data_cliente.set_index('Fecha', inplace=True, drop=False)
@@ -119,11 +121,9 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         data_cliente.sort_index(inplace=True)
 
         # Cargar el modelo ARIMA guardado desde S3 para cada cliente
-        #modelo_cargado = load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder='models')
-        
-        print(data_cliente.index[-1])
+        modelo_cargado = load_model_from_s3(cliente, s3_client, cleaning_bucket, models_folder='models')
 
-        '''# La última fecha en el índice más un intervalo de tiempo
+        # La última fecha en el índice más un intervalo de tiempo
         fecha_inicio_predicciones = data_cliente.index[-1] + pd.Timedelta(hours=1)
         
         # Realizar predicciones
@@ -142,4 +142,4 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
 
         all_predictions = pd.concat([all_predictions, cliente_predictions], ignore_index=True)
 
-    print(all_predictions)'''
+    print(all_predictions)
