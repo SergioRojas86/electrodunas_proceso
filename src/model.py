@@ -88,4 +88,4 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
         resultado = modelo.fit()
 
         # Guardar el modelo ajustado en S3
-        save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models/')
+        save_model_to_s3(resultado, cliente, s3_client, cleaning_bucket, models_folder='models')
