@@ -7,8 +7,7 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
     combined_df = pd.DataFrame()
     directory = 'clean/'
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
-    print(response['Contents'])
-    '''if 'Contents' in response:
+    if 'Contents' in response:
         for obj in response['Contents']:
             key = obj['Key']
             if key.endswith('.csv'):
@@ -16,7 +15,8 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
                 data = response['Body'].read()
                 df = pd.read_csv(BytesIO(data))
                 combined_df = pd.concat([combined_df, df], ignore_index=True)
-    return combined_df'''
+    print(combined_df)
+    #return combined_df
 
 # Función para leer el archivo XLSX
 def read_xlsx(s3_client, cleaning_bucket, key):
