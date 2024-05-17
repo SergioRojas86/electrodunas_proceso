@@ -9,6 +9,11 @@ import numpy as np
 import pickle
 import holidays
 
+import warnings
+
+# Ignorar específicamente FutureWarning
+warnings.filterwarnings('ignore', category=FutureWarning)
+
 def read_base(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     file = f'{stage_folder}/{base_csv_name}'
     response = s3_client.get_object(Bucket=cleaning_bucket, Key=file)
