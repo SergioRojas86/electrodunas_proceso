@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Consumo Histórico de Clientes No Regulados</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles_v3.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+<!-- Script para cargar gráficas de anillo de anomalías por sector-->
+<script>
+  window.onload = function() {
+      var data_anomalias = JSON.parse('{{ data_anomalias|tojson|safe }}');
+
+  
+      var chart = new CanvasJS.Chart("anomalia_sector", {
+          animationEnabled: true,
+
+        toolTip: {
+        shared: true,  // Intenta cambiar esto a false si es true
+        content: "{label}: {y} - #percent %",
+        cornerRadius: 5,
+
+        },
+          legend: {
+              cursor: "pointer",
+              fontFamily: 'Helvetica',
+              fontSize: 12,
+              fontColor: "#333",
+              horizontalAlign: "left",
+              verticalAlign: "bottom",
+              maxWidth: null,
+              itemWidth: 150,
+              itemWrap: true,
+              markerMargin: 10,
+              itemclick: function(e) {
+                  if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                      e.dataSeries.visible = false;
+                  } else {
+                      e.dataSeries.visible = true;
+                  }
+                  e.chart.render();
+              },
+            verticalAlign: "bottom",
+            horizontalAlign: "left"
+          },
+          data: [{
+              type: "doughnut",
+              showInLegend: true,
+              indexLabel: null,
+              innerRadius: "65%",
+              toolTipContent: "<b>{label}:</b> {y}%", //texto de la leyenda al pasar el mouse
+              dataPoints: data_anomalias.map(item => ({
+                          label: item.Sector,
+                          y: item.Porcentaje,
+                          legendText: item.Sector,
+                          indexLabel: "",
+                          indexLabelFontSize: 0,
+                          indexLabelLineThickness: 0,
+                          indexLabelPlacement: "outside",
+                          indexLabel: "{label} - #percent%",
+                          toolTipContent: "<b>{label}:</b> {y}%",
+                        }))
+        }],
+
+    });
+
+    chart.render();
+}
+  </script>
+  
+
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Electrodunas" class="logo">
+    </div>
+    <div class="title">
+      <h1>Análisis de Consumo Histórico de Clientes No Regulados</h1>
+    </div>
+  
+  </header>
+  <div class="container">
+
+      <section class="top-content">
+          <div class="filters" hidden>
+              <label for="period" hidden>Período a evaluar:</label>
+              <select id="period" name= "period" hidden >
+                {% for anio in list_anios.anios %}
+                  <option value="{{ anio }}" {% if anio == anio_seleccionado|int %}selected{% endif %}>
+                    {{ anio }}
+                  </option>
+                {% endfor %}
+               </select>
+              <label for="client" hidden>Selección cliente:</label>
+              <select id="client" name="client" hidden>
+                {% for cliente in list_clientes.clientes %}
+                  <option value="{{ cliente }}" {% if cliente == cliente_seleccionado %}selected{% endif %}>
+                    {{ cliente }}
+                  </option>
+                {% endfor %}
+              </select>
+          </div>
+  
+          <div class="alerts">
+            <button id="regresar-inicio">Volver DashBoard</button>
+          </div>
+      </section>
+
+      <h2>Perfilamiento de clientes con consumos atípicos</h2>
+      <section class="main-anomalias">
+        
+
+
+        <div class="data-table">
+          <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Descripción del Hallazgo</th>
+                    <th>Sector Económico</th>
+                    <th>Energía Activa</th>
+                </tr>
+            </thead>
+            <tbody id="anomaly-data">
+                <!-- Los datos se insertarán aquí por JavaScript -->
+            </tbody>
+        </table>
+        </div>
+
+
+        <div class="chart5">
+          <div class="titulo_grafico">Porcentaje de Anomalías por Sector</div>
+          <div class="content_chart">
+             <div class="chart_anomalias_sector" id="anomalia_sector" ></div>
+          </div>
+          <!-- Gráfico de anomalías por sector -->
+        </div>
+      </section>
+  
+  </div>
+  <footer>
+    <p>Todos los derechos reservados - 2024</p>
+  </footer>
+  </body>
+  
+
+</html>
+<script>
+let currentPage = 1;
+let isLoading = false;
+let totalPages = 10;  // Asegúrate de actualizar esto con la respuesta del servidor
+
+function loadData(page) {
+  let clienteActual = document.getElementById('client').value;//se recupera el nombre del cliente entregado
+  let anioActual = document.getElementById('period').value;//se recupera el nombre del cliente entregado
+  console.log(`Cargando datos para cliente: ${clienteActual}, año: ${anioActual}`);
+    if (!isLoading && page <= totalPages) {
+        isLoading = true;
+        let rowNumber = ((page - 1) * 20) + 1; // Ajusta '20' por el número de registros por página si es necesario
+               fetch(`/api/anomalias?page=${page}&per_page=20&cliente=${encodeURIComponent(clienteActual)}&year=${encodeURIComponent(anioActual)}`)
+           .then(response => response.json())
+            .then(result => {
+                isLoading = false;
+                const tableBody = document.getElementById('anomaly-data');
+                let rows = '';
+                result.data.forEach(item => {
+                    rows += `<tr>
+                                <td>${rowNumber++}</td>
+                                <td>${item.Cliente}</td>
+                                <td>${item.Fecha}</td>
+                                <td>${item.Descripcion}</td>
+                                <td>${item.Sector_Economico}</td>
+                                <td>${item.Active_energy}</td>
+                             </tr>`;
+                });
+                tableBody.innerHTML += rows;
+                totalPages = result.pages;
+            })
+            .catch(error => {
+                isLoading = false;
+                console.error('Error al cargar los datos:', error);
+            });
+    }
+}
+
+window.onscroll = function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+        loadData(++currentPage);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadData(currentPage);
+});
+</script>
+
+<script>
+    document.getElementById('regresar-inicio').addEventListener('click', function() {
+        var clienteSeleccionado = document.getElementById('client').value;
+        var anioSeleccionado = document.getElementById('period').value;
+        window.location.href = '/?cliente_seleccionado=' + encodeURIComponent(clienteSeleccionado)+'&anio_seleccionado='+ encodeURIComponent(anioSeleccionado);; 
+    });
+</script>
+
+<script>
+  let container = document.querySelector('.data-table'); // Selecciona el contenedor de la tabla
+
+  container.onscroll = function() {
+      // Verifica si el scroll ha alcanzado el final del contenedor
+      if (container.scrollHeight - container.scrollTop <= container.clientHeight + 100) {
+          loadData(++currentPage);
+      }
+  };
+</script>

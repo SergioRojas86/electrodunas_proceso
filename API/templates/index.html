@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Consumo Histórico de Clientes No Regulados</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles_v3.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+<!-- Script para cargar gráficar de series de tiempo -->
+<script>
+
+function createChart2(data, chartContainer, valueField, maxDate, maxValue) {
+ 
+    var chart = new CanvasJS.Chart(chartContainer, {
+        animationEnabled: true,
+        theme: "light2",
+        zoomEnabled: true,
+        rangeChanging: true,
+        axisX: {
+            valueFormatString: "DD MMM, YYYY",
+            crosshair: {
+                enabled: true,
+                snapToDataPoint: true
+            },
+            intervalType: "month", 
+            interval: 2, 
+            //stripLines: [
+            //    {
+            //        startValue: new Date(2022, 8, 28).getTime(),
+            //        endValue: new Date(2022, 11, 12).getTime(),
+            //        color: "#ffcccc",
+            //        label: "Consumo irregular",
+            //        labelAlign: "near",
+            //        labelBackgroundColor: "#ffcccc",
+            //        opacity: 0.7
+            //    }
+            //]
+        },
+        axisY: {
+            title: valueField === "energia_activa" ? "Energía Activa (kWh)" : "Energía Reactiva (kWh)",
+            includeZero: false,
+            valueFormatString: "#0.## kWh",
+            gridColor: "rgba(211,211,211,0.5)", // Establece el color de las líneas de guía con transparencia
+            gridThickness: 1, 
+            maximum:maxValue + (maxValue*0.3),
+            crosshair: {
+                enabled: true,
+                snapToDataPoint: true
+            },
+
+        },
+        axisX: {
+                    labelFontSize: 10 // Cambia este valor según sea necesario
+                },
+        data: [{
+            type: "line",
+            xValueType: "dateTime",
+            xValueFormatString: "DD MMM, YYYY HH:mm:ss",
+            yValueFormatString: "#,##0.## kWh",
+            dataPoints: data.map(item => {
+              // Determinar el tipo de marcador
+              let markerType = "circle"; // Valor predeterminado
+              if (item.fecha === maxDate) {
+                  markerType = "triangle"; // Máximo histórico
+              } else if (item.anomalo === true) {
+                  markerType = "cross"; // Anomalía
+              }
+
+              // Determinar el color del marcador
+              let markerColor = "blue"; // Color predeterminado
+              if (item.fecha === maxDate ) {
+                  markerColor = "green"; // Tanto para máximo histórico como para anomalía
+              } else  if (item.anomalo === true && valueField === "energia_activa" ){
+                  markerColor = "red"; // Tanto para máximo histórico como para anomalía
+             
+              } else if (item.anomalo ==='predict' && valueField === "energia_activa" ){
+                  markerColor = "green"; // Tanto para máximo histórico como para anomalía
+              }
+
+              // Determinar el tamaño del marcador
+              let markerSize = 0; // Sin marcador predeterminado
+              if (item.fecha === maxDate) {
+                  markerSize = 20; // Máximo histórico
+              } else if (item.anomalo=== true  && valueField === "energia_activa" ) {
+                  markerSize = 10; // Anomalía
+              } else if (item.anomalo ==='predict'  && valueField === "energia_activa" ) {
+                  markerSize = 7; // Anomalía
+              }
+
+              // Configurar las etiquetas de índice
+              let indexLabel = "";
+              if (item.fecha === maxDate) {
+                  indexLabel += "Máximo histórico: " + maxValue + " kW - Fecha: " + maxDate;
+              }
+              if (item.anomalo) {
+                  if (indexLabel.length > 0) indexLabel += ""; // Añadir separador si ya hay otra etiqueta
+                  indexLabel += "";
+              }
+
+              return {
+                  x: new Date(item.fecha),
+                  y: parseFloat(item[valueField]),
+                  indexLabel: indexLabel,
+                  markerType: markerType,
+                  markerColor: markerColor,
+                  markerSize: markerSize
+              };
+          })
+        }],
+
+
+    });
+    chart.render();
+}
+
+</script>
+
+
+ <script>
+  function createChart(data, chartContainer, valueField) {
+    // Calcular el total de los datos
+   
+
+    var chart = new CanvasJS.Chart(chartContainer, {
+        animationEnabled: true,
+        toolTip: {
+            shared: true,
+            content: "{label}: {y}"+ "kwa" + "- #percent %",
+            cornerRadius: 5
+        },
+        legend: {
+            cursor: "pointer",
+            fontFamily: 'Helvetica',
+            fontSize: 12,
+            fontColor: "#333",
+            horizontalAlign: "left",
+            verticalAlign: "bottom",
+            maxWidth: null,
+            markerMargin: 10,
+            itemclick: function(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                e.chart.render();
+            },
+            verticalAlign: "bottom",
+            horizontalAlign: "left"
+        },
+        
+        data: [{
+            type: "doughnut",
+            showInLegend: true,
+            indexLabel: null,
+            innerRadius: "65%",
+            yValueFormatString: "#,##0.00",
+            dataPoints: data.map(item => ({
+                label: item.Sector,
+                y: parseFloat(item[valueField]),
+              
+                legendText: item.Sector,
+                indexLabel: "",
+                indexLabelFontSize: 0,
+                indexLabelLineThickness: 0,
+                indexLabelPlacement: "inside"
+            }))
+        }],
+
+    });
+
+    chart.render();
+}
+
+</script>
+
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Electrodunas" class="logo">
+    </div>
+    <div class="title">
+      <h1>Análisis de Consumo Histórico de Clientes No Regulados</h1>
+    </div>
+  
+  </header>
+<div class="container">
+
+    <section class="top-content">
+
+        <div class="filters">
+          <div class = "texto_select">Período a evaluar:</div>
+          <select id="period" name= "period">
+            {% for anio in list_anios.anios %}
+              <option value="{{ anio }}" {% if anio == anio_seleccionado|int %}selected{% endif %}>
+                {{ anio }}
+              </option>
+            {% endfor %}
+          </select>
+          <div class = "texto_select">Selección Cliente:</div>
+          <select id="client" name="client">
+            {% for cliente in list_clientes.clientes %}
+              <option value="{{ cliente }}" {% if cliente == cliente_seleccionado %}selected{% endif %}>
+                {{ cliente }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+
+
+        <div class="alerts">
+            <button id="detectar-novedades">Novedades Detectadas</button>
+        </div>
+    </section>
+
+    <section class="main-data">
+        <div class="total-clients">
+            <div class="indicator-box1">
+                <h3>Total Clientes </h3>
+                <p class="indicator-value1">{{ total_clientes }}</p>
+            </div>
+            <div class="indicator-anomali">
+              <h3>Total Anomalias </h3>
+              <div class="value-anomali">
+                <p class="indicator-valuea">{{ total_anomali }}</p>
+                <p class="indicator-valuep">{{ perc_anomali }}</p>
+            </div>
+          </div>
+           <div class="indicators">
+            <div class="indicator-box8">
+              <h3>Std Energía Activa</h3>
+              <div class="value-kpi">
+                <p class="indicator-value8">{{ des_est }}</p>
+          
+              </div>
+            </div>
+            <div class="indicator-box9">
+                <h3>Tasa Crecimiento Energía Activa</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value9">{{ tasa_cre }}</p>
+      
+               </div>
+              </div>
+              <div class="indicator-box2">
+                <h3>Prom. Energía Activa</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value2">{{ mean_act }}</p>
+                  <p class="indicator-kw">kw</p>
+                </div>
+     
+     
+              </div>
+              <div class="indicator-box3">
+                <h3>Prom. Energía Reactiva</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value3">{{ mean_rea }}</p>
+                  <p class="indicator-kw">  Kw</p>
+                </div>
+                
+              </div>
+              <div class="indicator-box4">
+                <h3>Max Energía Activa</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value4">{{ max_act }}</p>
+                  <p class="indicator-kw">  Kw</p>
+                </div>
+              </div>
+              <div class="indicator-box5">
+                <h3>Max Energía Reactiva</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value5">{{ max_act }}</p>
+                  <p class="indicator-kw">  Kw</p>
+                </div>
+              </div>
+              <div class="indicator-box6">
+                <h3>Min Energía Activa</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value6">{{ min_act }}</p>
+                  <p class="indicator-kw">  Kw</p>
+                </div>
+              </div>
+              <div class="indicator-box7">
+                <h3>Min Energía Reactiva</h3>
+                <div class="value-kpi">
+                  <p class="indicator-value7">{{ min_rea }}</p>
+                  <p class="indicator-kw">  Kw</p>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+        <div class="energy-consumption">
+          <div class="chart1"  id="chart_1">
+            <div class="titulo_grafico">Consumo Total Kwa Energía Activa por Sector</div>
+            <div class="chart_active_energy"  id="active-energy">              
+                <!-- Gráfico de Energía Activa -->
+            </div>
+          </div>
+
+
+          <div class="chart2"  id="chart_2">
+            <div class="titulo_grafico">Consumo Total Kwa Energía Reactiva por Sector</div>
+            <div class="chart_reactive_energy"  id="reactive-energy">              
+                <!-- Gráfico de Energía Activa -->
+            </div>
+            
+          </div>
+        </div>
+
+
+        <div class="historical-charts">
+
+          <div class="chart3"  id="chart_3">
+            <div class="titulo_grafico">Consumo Energía Activa por Tiempo </div>
+            <div class="chart_active_energy_time"  id="active_energy_time">
+                <!-- Gráfico Histórico Energía Activa -->
+            </div>
+            <div class="convenciones">
+              <div class="conv_1">
+                <img src="{{ url_for('static', filename='anomalo.png') }}" alt="" class="logo">
+                Consumo anómalo
+               </div>
+              <div class="conv_2">
+                <img src="{{ url_for('static', filename='max.png') }}" alt="" class="logo">
+                Consumo máximo
+              </div>
+              <div class="conv_3">
+                <img src="{{ url_for('static', filename='line1.png') }}" alt="" class="logo">
+                Datos hitóricos
+              </div>
+              <div class="conv_4">
+                <img src="{{ url_for('static', filename='line2.png') }}" alt="" class="logo">
+                Datos predicción
+              </div>
+            </div>
+          </div> 
+
+          <div class="chart4"  id="chart_4">
+            <div class="titulo_grafico">Consumo Energía Reactiva por Tiempo </div>
+            <div class="chart_reactive_energy_time"  id="reactive_energy_time">
+                <!-- Gráfico Histórico Energía Activa -->
+            </div>
+            <div class="convenciones">
+
+              <div class="conv_2">
+                <img src="{{ url_for('static', filename='max.png') }}" alt="" class="logo">
+                Consumo máximo
+              </div>
+              <div class="conv_3">
+                <img src="{{ url_for('static', filename='line1.png') }}" alt="" class="logo">
+                Datos hitóricos
+              </div>
+
+            </div>
+          </div> 
+        </div> 
+
+          
+   
+    </section>
+
+    
+
+</div>
+
+<div class="irregular-consumption-alert" id="text_anomalias">
+  
+</div>
+<footer>
+  <p>Todos los derechos reservados - 2024</p>
+</footer>
+</body>
+
+</html>
+
+<script>
+  // Función para actualizar los 7 indicadores
+  function updateIndicators(data) {
+    document.querySelector('.indicator-value1').textContent = data.total_clientes;
+    document.querySelector('.indicator-value2').textContent = data.mean_act;
+    document.querySelector('.indicator-value3').textContent = data.mean_rea;
+    document.querySelector('.indicator-value4').textContent = data.max_act;
+    document.querySelector('.indicator-value5').textContent = data.max_rea;
+    document.querySelector('.indicator-value6').textContent = data.min_act;
+    document.querySelector('.indicator-value7').textContent = data.min_rea;
+    document.querySelector('.indicator-valuea').textContent = data.total_anomali;
+    document.querySelector('.indicator-valuep').textContent = data.perc_anomali;
+    document.querySelector('.indicator-value8').textContent = data.des_est;
+    document.querySelector('.indicator-value9').textContent = data.tasa_cre;
+    var anomaliasDiv = document.getElementById('text_anomalias');
+    anomaliasDiv.style.display = 'none'; 
+    if (data.total_anomali != 0) {
+      console.log("",data.total_anomali)
+      anomaliasDiv.textContent = `Se detectan ${data.total_anomali} anomalías.  Puede ver el detalle en la pestaña Novedades Detectadas`;
+      anomaliasDiv.style.display = 'block'; 
+    } else {
+      anomaliasDiv.style.display = 'none'; 
+    }
+
+    
+  }
+  // Función para actualizar las gráficas de serie de tiempo.
+  function updateCharts(clientId,anio_select) {
+ 
+  fetch(`/get-time-series-data?client_id=${clientId}&year=${anio_select}`)
+    .then(response => response.json())
+    .then(response => {
+      createChart2(response.data, "active_energy_time", "energia_activa", response.max_date, response.max_value);
+    })
+    .catch(error => console.error('Error al cargar los datos:', error));
+
+  fetch(`/get-time-series-data_2?client_id=${clientId}&year=${anio_select}`)
+    .then(response => response.json())
+    .then(response => {
+      createChart2(response.data, "reactive_energy_time", "energia_reactiva", response.max_date, response.max_value);
+    })
+    .catch(error => console.error('Error al cargar los datos:', error));
+  }
+
+
+  //función que se ejecuta cada vez que se abre el index.html
+  //aquí se controlan los datos del storage, para que no se pierdan al navegar entre index y novedades
+  document.addEventListener('DOMContentLoaded', function() {
+  const storedData = sessionStorage.getItem('indicatorData');
+  //Validamos si ya hay datos en el storage
+  if (storedData) {
+    const data = JSON.parse(storedData);
+
+    // Verifica qué contiene data
+    console.log("Data recuperada del storage:", data);
+    //se carga la función para que se actualicen los indicadores
+    updateIndicators(data);
+    // se carga la función para actualizar las series de tiempo
+    updateCharts(data.client_name,data.anioselect);
+
+    
+    fetch('/get-sector-data')
+    .then(response => response.json())
+    .then(data => createChart(data, "active-energy","energia_activa"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+    
+    fetch('/get-sector-data_2')
+    .then(response => response.json())
+    .then(data => createChart(data, "reactive-energy","energia_reactiva"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+    
+  }//Si no hay datos, iniciamos la gráfica de serie de tiempo en modo TODOS
+  else{
+    updateCharts('TODOS','TODOS');
+
+    fetch('/get-sector-data')
+    .then(response => response.json())
+    .then(data => createChart(data, "active-energy","energia_activa"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+    
+    fetch('/get-sector-data_2')
+    .then(response => response.json())
+    .then(data => createChart(data, "reactive-energy","energia_reactiva"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+  }
+});
+
+  </script>
+
+<script>
+document.getElementById('client').addEventListener('change', function() {
+  const anio_select = document.getElementById('period').value;
+  const clientName = this.value;
+  updateCharts(clientName,anio_select);
+  fetch('/get-client-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({client_name: clientName,anioselect:anio_select })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const dataToStore = {...data, client_name: clientName, anioselect:anio_select};
+      sessionStorage.setItem('indicatorData', JSON.stringify(dataToStore));
+      console.log("Datos guardados en localStorage:", dataToStore); // Asegúrate de que incluye `client_name`
+ 
+
+      // Actualización de la UI con los nuevos datos
+      updateIndicators(data);
+    })
+    .catch(error => console.error('Error:', error));
+});
+//mapeamos cambios de año
+document.getElementById('period').addEventListener('change', function() {
+const clientName = document.getElementById('client').value;
+const anio_select = this.value;
+
+updateCharts(clientName,anio_select);
+
+// Cargar la primera gráfica de anillo
+fetch(`/get-sector-data?year=${anio_select}`)
+    .then(response => response.json())
+    .then(data => createChart(data, "active-energy","energia_activa"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+// Cargar la segunda gráfica de anillo
+fetch(`/get-sector-data_2?year=${anio_select}`)
+    .then(response => response.json())
+    .then(data => createChart(data, "reactive-energy","energia_reactiva"))
+    .catch(error => console.error('Error al cargar los datos:', error));
+
+
+fetch('/get-client-data', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({client_name: clientName,anioselect: anio_select })
+  })
+  .then(response => response.json())
+  .then(data => {
+    const dataToStore = {...data, client_name: clientName, anioselect:anio_select};
+    sessionStorage.setItem('indicatorData', JSON.stringify(dataToStore));
+    console.log("Datos guardados en localStorage:", dataToStore); // Asegúrate de que incluye `client_name`
+
+
+    // Actualización de la UI con los nuevos datos
+    updateIndicators(data);
+  })
+  .catch(error => console.error('Error:', error));
+});
+</script>
+
+
+<script>
+  document.getElementById('detectar-novedades').addEventListener('click', function() {
+    var clienteSeleccionado = document.getElementById('client').value;
+    var anioSeleccionado = document.getElementById('period').value;
+    window.location.href = '/novedades?cliente=' + encodeURIComponent(clienteSeleccionado)+'&year='+ encodeURIComponent(anioSeleccionado);
+  });
+</script>
+  
+
+  
