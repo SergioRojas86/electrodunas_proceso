@@ -19,17 +19,18 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
                     df = pd.read_csv(BytesIO(data), header=None)  # Leer los siguientes CSV sin encabezado
                     df.columns = combined_df.columns  # Asignar las columnas para mantener la consistencia
                     combined_df = pd.concat([combined_df, df], ignore_index=True)
-    print(combined_df)
-    #return combined_df
+    return combined_df
 
 # Función para leer el archivo XLSX
-def read_xlsx(s3_client, cleaning_bucket, key):
+def read_xlsx(s3_client, cleaning_bucket, logger):
+    key = 'clean/sector_economico_clientes.xlsx'
     response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
     data = response['Body'].read()
     xlsx_df = pd.read_excel(BytesIO(data), engine='openpyxl')
-    xlsx_df = xlsx_df.rename(columns={'Cliente:': 'Cliente', 'Sector Económico:': 'Sector Economico'})
+    xlsx_df = xlsx_df.rename(columns={'Cliente:': 'Cliente', 'Sector Económico:': 'Sector_Economico'})
     xlsx_df['Cliente'] = xlsx_df['Cliente'].str.strip()
-    return xlsx_df
+    print(xlsx_df)
+    #return xlsx_df
 
 '''
 # Función principal
