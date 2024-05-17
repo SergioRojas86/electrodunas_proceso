@@ -1,5 +1,7 @@
 import pandas as pd
 from io import BytesIO
+from scipy.stats import boxcox
+from scipy.special import inv_boxcox
 import seaborn as sns
 from statsmodels.tsa.arima.model import ARIMA
 from sklearn.ensemble import IsolationForest
@@ -45,6 +47,15 @@ def modified_data(anomaly_data):
     
     print(Data_ajustado)
     
+def box_cox(Data_ajustado):
+    #  todos los valores en 'Active_energy' sean positivos
+    Data_ajustado['Active_energy'] = Data_ajustado['Active_energy'].clip(lower=0.001)  # Usar un pequeño valor positivo para reemplazar 0 o valores negativos
+
+    # Aplicar la transformación Box-Cox
+    Data_ajustado['Transformed_Active_energy'], fitted_lambda = boxcox(Data_ajustado['Active_energy'])
+    
+    return Data_ajustado
+    
 
 def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
@@ -52,4 +63,8 @@ def main_model(s3_client, cleaning_bucket, stage_folder, base_csv_name, logger):
     
     anomaly_data = anomalies(base_df)
     
-    modified_data(anomaly_data)
+    Data_ajustado = modified_data(anomaly_data)
+    
+    Data_ajustado_bc = box_cox(Data_ajustado)
+    
+    print(Data_ajustado_bc)
