@@ -4,7 +4,7 @@ from io import BytesIO
 
 # Función para leer y concatenar CSVs
 def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
-    combined_df = pd.DataFrame()
+    combined_df = None
     directory = 'clean/'
     response = s3_client.list_objects_v2(Bucket=cleaning_bucket, Prefix=directory)
     if 'Contents' in response:
@@ -13,8 +13,12 @@ def read_and_concatenate_csv(s3_client, cleaning_bucket, logger):
             if key.endswith('.csv'):
                 response = s3_client.get_object(Bucket=cleaning_bucket, Key=key)
                 data = response['Body'].read()
-                df = pd.read_csv(BytesIO(data), header=0 if combined_df.empty else None)
-                combined_df = pd.concat([combined_df, df], ignore_index=True)
+                if combined_df is None:
+                    combined_df = pd.read_csv(BytesIO(data))  # Leer el primer CSV con encabezado
+                else:
+                    df = pd.read_csv(BytesIO(data), header=None)  # Leer los siguientes CSV sin encabezado
+                    df.columns = combined_df.columns  # Asignar las columnas para mantener la consistencia
+                    combined_df = pd.concat([combined_df, df], ignore_index=True)
     print(combined_df)
     #return combined_df
 
