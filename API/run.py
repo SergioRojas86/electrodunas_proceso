@@ -169,6 +169,8 @@ def api_anomalias():
     start = (page - 1) * per_page
     end = start + per_page
     
+    print(cliente)
+    print(anioselect)
     print(tabla)
 
     return jsonify({
