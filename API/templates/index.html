@@ -64,7 +64,7 @@ function createChart2(data, chartContainer, valueField, maxDate, maxValue) {
               let markerType = "circle"; // Valor predeterminado
               if (item.fecha === maxDate) {
                   markerType = "triangle"; // Máximo histórico
-              } else if (item.anomalo === true) {
+              } else if (item.anomalo === 'True') {
                   markerType = "cross"; // Anomalía
               }
 
@@ -72,7 +72,7 @@ function createChart2(data, chartContainer, valueField, maxDate, maxValue) {
               let markerColor = "blue"; // Color predeterminado
               if (item.fecha === maxDate ) {
                   markerColor = "green"; // Tanto para máximo histórico como para anomalía
-              } else  if (item.anomalo === true && valueField === "energia_activa" ){
+              } else  if (item.anomalo === 'True' && valueField === "energia_activa" ){
                   markerColor = "red"; // Tanto para máximo histórico como para anomalía
              
               } else if (item.anomalo ==='predict' && valueField === "energia_activa" ){
@@ -83,7 +83,7 @@ function createChart2(data, chartContainer, valueField, maxDate, maxValue) {
               let markerSize = 0; // Sin marcador predeterminado
               if (item.fecha === maxDate) {
                   markerSize = 20; // Máximo histórico
-              } else if (item.anomalo=== true  && valueField === "energia_activa" ) {
+              } else if (item.anomalo=== 'True'  && valueField === "energia_activa" ) {
                   markerSize = 10; // Anomalía
               } else if (item.anomalo ==='predict'  && valueField === "energia_activa" ) {
                   markerSize = 7; // Anomalía
@@ -370,7 +370,15 @@ function createChart2(data, chartContainer, valueField, maxDate, maxValue) {
   
 </div>
 <footer>
-  <p>Todos los derechos reservados - 2024</p>
+  <div class="logo_uniandes">
+    <img src="{{ url_for('static', filename='logo_andes.png') }}" alt="" class="logo">
+  </div>
+  <div class="texto_footer">
+    <p>Todos los derechos reservados - 2024</p>
+  </div>
+  <div class="texto_footer">
+    <p>Desarrollado Por: Eniver Pino | Gloria Ramos | Sergio Rojas</p>
+  </div>
 </footer>
 </body>
 

@@ -51,8 +51,8 @@ def filtro_data(data,filtro,filtro_anio):
         des_est =  str(round(consumo_historico.energia_activa.std(),1))  
         lista = consumo_historico.energia_activa.tolist()
         tasa_cre = str(round((lista[-1]-lista[0])/lista[0] * 100,1)) + "%"
-        total_anomali = int(float(len(data[data.is_outlier_if == True]))) 
-        perc_anomali = str(int(round((len(data[data.is_outlier_if == True]) / len(data)) * 100,0))) + "%"
+        total_anomali = int(float(len(data[data.is_outlier_if == 'True']))) 
+        perc_anomali = str(int(round((len(data[data.is_outlier_if == 'True']) / len(data)) * 100,0))) + "%"
         
 
     else:        
@@ -86,8 +86,8 @@ def filtro_data(data,filtro,filtro_anio):
             des_est =  str(round(consumo_historico.energia_activa.std(),1))  
             lista = consumo_historico.energia_activa.tolist()
             tasa_cre = str(round((lista[-1]-lista[0])/lista[0] * 100,1)) + "%"
-            total_anomali = int(len(data2[data2.is_outlier_if == True]))
-            perc_anomali = str(int(round((len(data2[data2.is_outlier_if == True]) / len(data2)) * 100,0))) + "%"
+            total_anomali = int(len(data2[data2.is_outlier_if == 'True']))
+            perc_anomali = str(int(round((len(data2[data2.is_outlier_if == 'True']) / len(data2)) * 100,0))) + "%"
         else:
             total_clientes = 'Sin data'
             mean_act = '0' 
