@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, Response
 from Data_visualizacion import carga_datos
 from Data_visualizacion import filtro_data
 from Data_visualizacion import anom_cliente
@@ -28,7 +28,7 @@ list_anios, list_clientes, total_clientes,des_est,tasa_cre ,mean_act, mean_rea, 
 
 print(tasa_cre)
 #lanzamento de la api
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -94,6 +94,10 @@ def get_time_series_data():
         'max_date': max_date,
         'max_value': max_value
     }
+    
+    response = Response(response_data)
+    response.headers['Content-Length'] = len(response_data)
+    return response
 
     return jsonify(response_data)
 
