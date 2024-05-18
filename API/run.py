@@ -97,9 +97,8 @@ def get_time_series_data():
     
     response = Response(response_data)
     response.headers['Content-Length'] = len(response_data)
-    return response
-
-    return jsonify(response_data)
+    
+    return jsonify(response)
 
 # gráfico serie de tiempo energía reactiva
 @app.route('/get-time-series-data_2')
