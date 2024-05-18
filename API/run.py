@@ -170,7 +170,7 @@ def api_anomalias():
     end = start + per_page
     
     print(cliente)
-    print(anioselect)
+    print(type(anioselect))
     print(tabla)
 
     return jsonify({
