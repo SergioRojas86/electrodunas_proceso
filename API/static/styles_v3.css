@@ -57,19 +57,23 @@ header .title {
 
 .main-data {
     display: grid;
-    grid-template-columns: .6fr 1fr 2fr;
+    grid-template-columns: .4fr 1fr 2fr;
     padding: 10px;
     gap: 20px;
     margin-top: 20px;
     background-color: #E5E6F2;
     height: auto;
 }
+.total-clients{
+    width: 100%;
 
-.total-clients, .chart{
+    background-color: #ffffff;
+}
+.total-clients, chart{
     border: 1px solid #ddd;
     padding: 20px;
     text-align: center;
-    background-color: #ffffff;
+    
  
 }
 .irregular-consumption-alert {
@@ -112,13 +116,13 @@ header .title {
 .indicator-valuea {
     font-weight: bold;  /*Hacer el valor del indicador en negrita */
     padding-top: 5px; /* Espacio interno */
-    font-size: 54px;
+    font-size: 50px;
     text-align: right;    
   
 }
 .indicator-valuep {
     display: flex;
-    font-size: 20px; /* Tamaño de fuente base para la caja del indicador */
+    font-size: 18px; /* Tamaño de fuente base para la caja del indicador */
     text-align: left;
     margin-top: 5px;
     margin-left: 4px; 
@@ -145,7 +149,7 @@ header .title {
     padding: 10px 15px; /* Espacio interno */
     text-align: center; /* Centrar el texto */
     font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 12px; /* Tamaño de fuente base para la caja del indicador */
+    font-size: 9px; /* Tamaño de fuente base para la caja del indicador */
   
 }
 
@@ -178,7 +182,7 @@ header .title {
 .indicator-value2, .indicator-value3, .indicator-value4, .indicator-value5, .indicator-value6, .indicator-value7, .indicator-value8, .indicator-value9 {
     font-weight: bold;  /*Hacer el valor del indicador en negrita */
     padding-top: 5px; /* Espacio interno */
-    font-size: 40px; /* Tamaño de fuente base para la caja del indicador */
+    font-size: 36px; /* Tamaño de fuente base para la caja del indicador */
     text-align: right;
 
 }
@@ -266,6 +270,9 @@ footer {
     flex: 1;
     margin: 0 10px;
     text-align: center;
+}
+.irregular-consumption-alert{
+    display: none;
 }
   
 /**
@@ -461,7 +468,11 @@ th {
         font-size: 9x; /* Tamaño de fuente base para la caja del indicador */
     }
 
+    footer {
+        font-size: 0.8rem;  
+      }
 
+    
 }
 
 
@@ -516,6 +527,12 @@ th {
    .indicator-value1, .indicator-valuea{
     font-size: 3rem;
 
+    }
+    footer {
+        font-size: 0.6rem;  
+      }
+    .logo_uniandes img{
+        height: 60%;
     }
 
 }
