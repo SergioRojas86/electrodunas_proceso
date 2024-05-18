@@ -120,19 +120,19 @@ def filtro_data(data,filtro,filtro_anio):
 
 def anom_cliente(data,filtro,filtro_anio):
     if filtro == 'TODOS' and filtro_anio == 'TODOS':  
-        df = data[data.is_outlier_if == True]
+        df = data[data.is_outlier_if == 'True']
         df = df[['Cliente','Fecha','Descripcion','Sector_Economico','Active_energy']]
        
 
     else:
         if filtro != 'TODOS' and filtro_anio=='TODOS':
-                df = data[(data.Cliente == filtro) & (data.is_outlier_if == True)] 
+                df = data[(data.Cliente == filtro) & (data.is_outlier_if == 'True')] 
         elif filtro != 'TODOS' and filtro_anio!='TODOS':
                 filtro_anio = int(filtro_anio) 
-                df = data[(data.Cliente == filtro) & (data.is_outlier_if == True) & (data.Anio == filtro_anio)]  
+                df = data[(data.Cliente == filtro) & (data.is_outlier_if == 'True') & (data.Anio == filtro_anio)]  
         elif filtro == 'TODOS' and filtro_anio!='TODOS':
                 filtro_anio = int(filtro_anio) 
-                df = data[(data.is_outlier_if == True) & (data.Anio == filtro_anio)] 
+                df = data[(data.is_outlier_if == 'True') & (data.Anio == filtro_anio)] 
         
         df = df[['Cliente','Fecha','Descripcion','Sector_Economico','Active_energy']]
     return df
