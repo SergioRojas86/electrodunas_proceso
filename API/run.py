@@ -157,7 +157,7 @@ def novedades():
     return render_template('novedades.html',data_anomalias=data_anomalias,list_anios=list_anios,list_clientes=list_clientes,cliente_seleccionado=cliente, anio_seleccionado =anioselect )
 
 #api para controlar la informaci´n que se le entrega a novedades
-@app.route('/api/anomalias')
+@app.route('/api_anomalias')
 def api_anomalias():
     #control de paginación para no cargar todos los registros al tiempo, sino hacer un cargue por lotes
     page = request.args.get('page', 1, type=int)
