@@ -28,7 +28,7 @@ list_anios, list_clientes, total_clientes,des_est,tasa_cre ,mean_act, mean_rea, 
 
 print(tasa_cre)
 #lanzamento de la api
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 
 @app.route('/')
 def index():
