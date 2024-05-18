@@ -18,7 +18,7 @@ from io import BytesIO
 def carga_datos_s3(bucket_name, file_key):
     s3 = boto3.client('s3')
     obj = s3.get_object(Bucket=bucket_name, Key=file_key)
-    data = pd.read_csv(BytesIO(obj['Body'].read()))
+    data = pd.read_csv(BytesIO(obj['Body'].read()), low_memory=False)
     return data
 
 # Carga inicial de datos desde S3
