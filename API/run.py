@@ -148,7 +148,7 @@ def get_client_data():
 def novedades():
     cliente = request.args.get('cliente', default='TODOS')  
     anioselect = request.args.get('year', default='TODOS') #variable cliente para poder filtrar la tabla
-    anomalias = data_kpi[data_kpi['is_outlier_if'] == True]
+    anomalias = data_kpi[data_kpi['is_outlier_if'] == 'True']
     conteo_por_sector = Counter(anomalias['Sector_Economico'])
     total_anomalias = len(anomalias)
     # Calcular porcentajes
