@@ -50,7 +50,7 @@ def filtro_data(data,filtro,filtro_anio):
         max_rea = str(round(consumo_historico.energia_reactiva.max(),1)) 
         des_est =  str(round(consumo_historico.energia_activa.std(),1))  
         lista = consumo_historico.energia_activa.tolist()
-        tasa_cre = str(round((np.mean(data.pct_change()),1))) + "%"
+        tasa_cre = str(round((np.mean(data.Active_energy.pct_change()),1))) + "%"
         total_anomali = int(float(len(data[data.is_outlier_if == 'True']))) 
         perc_anomali = str(int(round((len(data[data.is_outlier_if == 'True']) / len(data)) * 100,0))) + "%"
         
@@ -85,7 +85,7 @@ def filtro_data(data,filtro,filtro_anio):
             consumo_filtrado.columns = ['fecha','Cliente','energia_activa','energia_reactiva','anomalo']
             des_est =  str(round(consumo_historico.energia_activa.std(),1))  
             lista = consumo_historico.energia_activa.tolist()
-            tasa_cre = str(round((np.mean(data2.pct_change()),1))) + "%"
+            tasa_cre = str(round((np.mean(data2.Active_energy.pct_change()),1))) + "%"
             total_anomali = int(len(data2[data2.is_outlier_if == 'True']))
             perc_anomali = str(int(round((len(data2[data2.is_outlier_if == 'True']) / len(data2)) * 100,0))) + "%"
         else:
