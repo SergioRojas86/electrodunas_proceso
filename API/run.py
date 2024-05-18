@@ -89,15 +89,13 @@ def get_time_series_data():
     #print(filtered_data)
     # Convertir los datos filtrados a JSON, incluyendo el valor máximo
     activa_time = filtered_data[['fecha', 'energia_activa','anomalo']].to_dict(orient='records')
+    
     response_data = {
         'data': activa_time,
         'max_date': max_date,
         'max_value': max_value
     }
     
-    print(client_name,anio_select)
-    print(filtered_data)
-
     return jsonify(response_data)
 
 # gráfico serie de tiempo energía reactiva
@@ -170,6 +168,8 @@ def api_anomalias():
     total = len(tabla)
     start = (page - 1) * per_page
     end = start + per_page
+    
+    print(tabla)
 
     return jsonify({
         'data': tabla.iloc[start:end].to_dict(orient='records'),
@@ -177,6 +177,7 @@ def api_anomalias():
         'page': page,
         'pages': (total + per_page - 1) // per_page
     })
+    
     
 
 if __name__ == '__main__':
