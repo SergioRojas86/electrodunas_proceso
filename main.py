@@ -55,19 +55,7 @@ def main(log_file, bucket_name_log, files_to_execute, s3_client, cleaning_bucket
 if __name__ == "__main__":
     s3_client = boto3.client('s3')
         
-    #json_arg = sys.argv[1]
-    
-    files = [['2021', '2024-05-11 01:33:49', '2024-05-11 01:32:20'], ['2022', '2024-05-11 01:33:50', '2024-05-11 01:32:20'], ['2023', '2024-05-11 01:33:50', '2024-05-11 01:32:20']]
-    
-    data_to_send = {'log_bucket':"electrodunas-log-files", 
-            'log_file':"log_executed_files.csv", 
-            'cleaning_bucket':"electrodunas-clean-data", 
-            'clean_folder':"clean", 
-            'stage_folder':"stage",
-			'files_to_execute': files
-			}
-    
-    json_arg = json.dumps(data_to_send)
+    json_arg = sys.argv[1]
     
     data = json.loads(json_arg)
     log_bucket = data['log_bucket']
