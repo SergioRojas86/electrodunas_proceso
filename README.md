@@ -10,7 +10,7 @@ Bienvenidos al repositorio de **electrodunas_proceso**. Un proyecto realizado pa
 Encontrarás el código para el despliegue de un endpoint creado con Flask y desplegado a través de una instancia EC2 en AWS.
 
 ### [aws_lambda_function](./aws_lambda_function)
-Código de la función lambda la cual es ejecutada por un trigger de S3 al detectar un archivo con extensión ´.confirm´ y ejecuta el código que se encuentra dentro de la instancia EC2.
+Código de la función lambda la cual es ejecutada por un trigger de S3 al detectar un archivo con extensión *.confirm* y ejecuta el código que se encuentra dentro de la instancia EC2.
 
 ### [src](./src)
 Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado.
