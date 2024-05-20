@@ -7,16 +7,16 @@ Bienvenidos al repositorio de **electrodunas_proceso**. Un proyecto realizado pa
 ## Carpetas y Archivos
 
 ### [API](./API)
-Encontras el código para el despliegue de un endpoint creado con Flask y desplegado a traves de una instancia EC2 en AWS.
+Encontrarás el código para el despliegue de un endpoint creado con Flask y desplegado a través de una instancia EC2 en AWS.
 
 ### [aws_lambda_function](./aws_lambda_function)
-Código de la función lambda la cual es ejecutada por un trigger de S3 al detectar un archivo con extensión .confirm y ejecuta el código que se encuentra dentro de la instancia EC2.
+Código de la función lambda la cual es ejecutada por un trigger de S3 al detectar un archivo con extensión ´.confirm´ y ejecuta el código que se encuentra dentro de la instancia EC2.
 
 ### [src](./src)
-Espacio para descripción sobre el contenido de la carpeta `src`. Aquí puedes incluir detalles sobre qué archivos están presentes y su propósito.
+Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado.
 
 ### [main.py](./main.py)
-Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado.
+Archivo principal de ejecución del pipeline.
 
 ## Contacto
 
