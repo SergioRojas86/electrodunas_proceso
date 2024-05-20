@@ -13,7 +13,7 @@ Encontrarás el código para el despliegue de un endpoint creado con Flask y des
 Código de la función lambda la cual es ejecutada por un trigger de S3 al detectar un archivo con extensión *.confirm* y ejecuta el código que se encuentra dentro de la instancia EC2.
 
 ### [src](./src)
-Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado.
+Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado y finalmente ejecutando este mismo. Todo acerca del modelo utilizado lo puedes encontrar en este archivo [model.py](./src/model.py)
 
 ### [main.py](./main.py)
 Archivo principal de ejecución del pipeline.
