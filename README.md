@@ -20,11 +20,11 @@ Archivo principal de ejecución del pipeline.
 
 ## Contacto
 
-Si tienes alguna pregunta o sugerencia, no dudes en contactarnos a través de [correo electrónico](mailto:contacto@example.com):
+Si tienes alguna pregunta o sugerencia, no dudes en contactar a los creadores del proyecto a través de [correo electrónico](mailto:contacto@example.com):
 
-- [s.rojasz@uniandes.edu.co](mailto:s.rojasz@uniandes.edu.co)
-- [gm.ramos@uniandes.edu.co](mailto:gm.ramos@uniandes.edu.co)
-- [e.pinog@uniandes.edu.co](mailto:e.pinog@uniandes.edu.co)
+- Sergio Rojas [s.rojasz@uniandes.edu.co](mailto:s.rojasz@uniandes.edu.co)
+- Gloria Ramos [gm.ramos@uniandes.edu.co](mailto:gm.ramos@uniandes.edu.co)
+- Eniver Pino [e.pinog@uniandes.edu.co](mailto:e.pinog@uniandes.edu.co)
 
 ---
 
