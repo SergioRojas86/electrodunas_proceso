@@ -1,0 +1,201 @@
+2024-05-18 16:59:22,655 - INFO - Parametros de ejecución: log_bucket: electrodunas-log-files - log_file: log_executed_files.csv - cleaning_bucket: electrodunas-clean-data - clean_folder: clean - stage_folder: stage
+2024-05-18 16:59:22,655 - INFO - Se realizara el procesamiento de las fechas: [['2021', '2024-05-18 16:59:10', '2024-05-18 16:57:44'], ['2022', '2024-05-18 16:59:12', '2024-05-18 16:57:44'], ['2023', '2024-05-18 16:59:12', '2024-05-18 16:57:44']]
+2024-05-18 16:59:22,655 - INFO - Inicia el proceso de verificación de calidad de datos
+2024-05-18 16:59:22,789 - INFO - verificando la completitud de datos
+2024-05-18 16:59:22,869 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:22,914 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,002 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,040 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,112 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,160 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,235 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,274 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,340 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,379 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,434 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,483 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,540 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,583 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,668 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,714 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,779 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,819 - INFO - verificando la completitud de datos
+2024-05-18 16:59:23,884 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:23,929 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,023 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,059 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,116 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,160 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,209 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,248 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,315 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,359 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,414 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,449 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,501 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,547 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,597 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,638 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,706 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,752 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,836 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,875 - INFO - verificando la completitud de datos
+2024-05-18 16:59:24,919 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:24,957 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,056 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,099 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,154 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,192 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,237 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,276 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,335 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,380 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,440 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,482 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,530 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,568 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,615 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,660 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,716 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,750 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,814 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,855 - INFO - verificando la completitud de datos
+2024-05-18 16:59:25,914 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:25,953 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,014 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,054 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,119 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,166 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,223 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,260 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,309 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,342 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,404 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,449 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,502 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,534 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,593 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,631 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,701 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,745 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,798 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,840 - INFO - verificando la completitud de datos
+2024-05-18 16:59:26,902 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:26,937 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,001 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,049 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,108 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,147 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,208 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,247 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,270 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,288 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,327 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,344 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,366 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,383 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,408 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,428 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,449 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,467 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,510 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,533 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,574 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,659 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,717 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,748 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,797 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,825 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,884 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:27,923 - INFO - verificando la completitud de datos
+2024-05-18 16:59:27,974 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,001 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,066 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,104 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,158 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,201 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,249 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,292 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,355 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,395 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,453 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,490 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,551 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,594 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,653 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,689 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,743 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,782 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,832 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,858 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,902 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:28,932 - INFO - verificando la completitud de datos
+2024-05-18 16:59:28,980 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,012 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,058 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,086 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,144 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,167 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,210 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,239 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,282 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,315 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,366 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,395 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,434 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,467 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,507 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,542 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,579 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,609 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,658 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,688 - INFO - verificando la completitud de datos
+2024-05-18 16:59:29,729 - INFO - verificando que se encuentren las columnas requeridas en todos los archivos de los clientes
+2024-05-18 16:59:29,760 - INFO - Todos los archivos de los clientes contienen las columnas requeridas
+2024-05-18 16:59:29,760 - INFO - El catalogo contiene las columnas requeridas
+2024-05-18 16:59:29,760 - INFO - Inicia el merge de la data de los clientes con el catalogo de sector economico
+2024-05-18 16:59:29,760 - INFO - Combinacion de todos los archivos csv de los clientes
+2024-05-18 16:59:33,528 - INFO - Leyendo el archivo catalogo de sector economico
+2024-05-18 16:59:33,704 - INFO - Realizando la union de los clientes con su correspondiente sector economico
+2024-05-18 16:59:39,274 - INFO - El archivo base listo para el uso del modelo se creo en electrodunas-clean-data/stage/base_clientes.csv
+2024-05-18 16:59:39,282 - INFO - Leyendo archivo base
+2024-05-18 16:59:40,702 - INFO - Deteccion de anomalias
+2024-05-18 16:59:48,857 - INFO - Ajustando datos
+2024-05-18 16:59:49,360 - INFO - transformacion box cox
+2024-05-18 16:59:51,829 - INFO - Entrenamiento de modelos
+2024-05-18 17:00:00,958 - INFO - model: modelo_arima_Cliente 1
+2024-05-18 17:00:12,796 - INFO - model: modelo_arima_Cliente 10
+2024-05-18 17:00:21,730 - INFO - model: modelo_arima_Cliente 11
+2024-05-18 17:00:28,145 - INFO - model: modelo_arima_Cliente 12
+2024-05-18 17:00:34,300 - INFO - model: modelo_arima_Cliente 13
+2024-05-18 17:00:41,618 - INFO - model: modelo_arima_Cliente 14
+2024-05-18 17:00:49,553 - INFO - model: modelo_arima_Cliente 15
+2024-05-18 17:01:01,234 - INFO - model: modelo_arima_Cliente 16
+2024-05-18 17:01:12,764 - INFO - model: modelo_arima_Cliente 17
+2024-05-18 17:01:22,205 - INFO - model: modelo_arima_Cliente 18
+2024-05-18 17:01:36,428 - INFO - model: modelo_arima_Cliente 19
+2024-05-18 17:01:50,218 - INFO - model: modelo_arima_Cliente 2
+2024-05-18 17:02:04,658 - INFO - model: modelo_arima_Cliente 20
+2024-05-18 17:02:10,267 - INFO - model: modelo_arima_Cliente 21
+2024-05-18 17:02:16,667 - INFO - model: modelo_arima_Cliente 22
+2024-05-18 17:02:23,225 - INFO - model: modelo_arima_Cliente 23
+2024-05-18 17:02:27,691 - INFO - model: modelo_arima_Cliente 24
+2024-05-18 17:02:32,641 - INFO - model: modelo_arima_Cliente 25
+2024-05-18 17:02:38,604 - INFO - model: modelo_arima_Cliente 26
+2024-05-18 17:02:45,125 - INFO - model: modelo_arima_Cliente 27
+2024-05-18 17:02:50,421 - INFO - model: modelo_arima_Cliente 28
+2024-05-18 17:02:56,785 - INFO - model: modelo_arima_Cliente 29
+2024-05-18 17:03:07,976 - INFO - model: modelo_arima_Cliente 3
+2024-05-18 17:03:15,475 - INFO - model: modelo_arima_Cliente 30
+2024-05-18 17:03:29,600 - INFO - model: modelo_arima_Cliente 4
+2024-05-18 17:03:42,584 - INFO - model: modelo_arima_Cliente 5
+2024-05-18 17:03:55,000 - INFO - model: modelo_arima_Cliente 6
+2024-05-18 17:04:05,239 - INFO - model: modelo_arima_Cliente 7
+2024-05-18 17:04:14,624 - INFO - model: modelo_arima_Cliente 8
+2024-05-18 17:04:27,387 - INFO - model: modelo_arima_Cliente 9
+2024-05-18 17:04:28,515 - INFO - Realizando predicciones
+2024-05-18 17:04:56,622 - INFO - predicciones realizadas
+2024-05-18 17:04:56,623 - INFO - Generando el archivo descriptivo batch para el endpoint
+2024-05-18 17:05:09,201 - INFO - Archivo descriptivo creado en electrodunas-clean-data/result/datos_descriptivos.csv
+2024-05-18 17:05:09,552 - INFO - Se actualizo el log csv con los archivos ejecutados
+2024-05-18 17:05:09,563 - INFO - Proceso finalizado
