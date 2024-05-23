@@ -16,7 +16,7 @@ Código de la función lambda la cual es ejecutada por un trigger de S3 al detec
 Es un pipeline encargado de verificar la estructura de los archivos suministrados y realizar la transformación de los datos para la creación de la base que va a recibir el modelo entrenado y finalmente ejecutando este mismo. Todo acerca del modelo utilizado lo puedes encontrar en este archivo [model.py](./src/model.py)
 
 ### [files_and_logs](./files_and_logs)
-Se encuentra una muestra de los logs generados por el proceso.
+Se encuentra una muestra de los logs generados por el proceso, la tabla de requerimientos y el manual de usuario.
 
 ### [main.py](./main.py)
 Archivo principal de ejecución del pipeline.
