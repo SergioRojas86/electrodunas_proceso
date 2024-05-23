@@ -24,7 +24,7 @@ Archivo principal de ejecución del pipeline.
 # Despliegue
 Para realizar el despliegue de la solución se necesita una instancia EC2, el tamaño de esta depende de la escalabilidad que se le desee dar a la información a procesar. El SO debe ser linux.
 Como paso inicial debes asegurarte que la EC2 este preparada para el código a ejecutar, estos son los comandos principales:
-> sudo yum update -y
+> sudo yum update -y <
 > sudo yum install git -y
 > sudo yum install python3 -y
 > sudo pip install Flask
