@@ -21,6 +21,35 @@ Se encuentra una muestra de los logs generados por el proceso.
 ### [main.py](./main.py)
 Archivo principal de ejecución del pipeline.
 
+# Despliegue
+Para realizar el despliegue de la solución se necesita una instancia EC2, el tamaño de esta depende de la escalabilidad que se le desee dar a la información a procesar. El SO debe ser linux.
+Como paso inicial debes asegurarte que la EC2 este preparada para el código a ejecutar, estos son los comandos principales:
+> sudo yum update -y
+> sudo yum install git -y
+> sudo yum install python3 -y
+> sudo pip install Flask
+> sudo pip install boto3
+> sudo pip install scikit-learn
+> sudo pip install gunicorn
+> sudo amazon-linux-extras install nginx1.12 -y
+
+Configurar NGINX editando el archivo /etc/nginx/nginx.conf o creando un archivo de configuración específico para tu sitio en /etc/nginx/conf.d/ colocando el dominio publico de tu instancia:
+```
+server {
+    listen 80;
+    server_name tu-dominio.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+> sudo systemctl restart nginx
+
 ## Contacto
 
 Si tienes alguna pregunta o sugerencia, no dudes en contactar a los creadores del proyecto a través de [correo electrónico](mailto:contacto@example.com):
