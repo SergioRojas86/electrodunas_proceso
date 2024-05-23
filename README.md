@@ -33,6 +33,33 @@ Como paso inicial debes asegurarte que la EC2 este preparada para el código a e
 > sudo pip install scikit-learn
 > sudo pip install gunicorn
 > sudo amazon-linux-extras install nginx1.12 -y
+> sudo yum install git -y
+```
+Una vez ejecutados las lineas ed comando anteriormente mencionadas, puedes clonar el repositorio.
+
+Luego se debe crear el archivo /etc/systemd/system/myproject.service
+```
+[Unit]
+Description=Gunicorn instance to serve myproject
+After=network.target
+
+[Service]
+User=ec2-user
+Group=nginx
+WorkingDirectory=/home/ec2-user/electrodunas_proceso/API
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/usr/local/bin/gunicorn --workers 3 --bind unix:/home/ec2-user/electrodunas_proceso/API/myproject.sock -m 007 --umask 0007 run:app
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+> sudo systemctl daemon-reload
+> sudo systemctl restart myprojec
+> sudo systemctl status myproject
+> sudo systemctl start myproject
+> sudo systemctl enable myproject
 ```
 
 Configurar NGINX editando el archivo /etc/nginx/nginx.conf o creando un archivo de configuración específico para tu sitio en /etc/nginx/conf.d/ colocando el dominio publico de tu instancia:
@@ -50,7 +77,13 @@ server {
     }
 }
 ```
+```
 > sudo systemctl restart nginx
+```
+
+Una vez realizados estos pasos en la instancia, podemos crear la función lambda subiendo el zip que encontramos en [aws_lambda_function](./aws_lambda_function).
+
+Y finalmente, crear los buckets especificados en el manual de usuario.
 
 ## Contacto
 
